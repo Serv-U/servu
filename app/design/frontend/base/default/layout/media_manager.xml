@@ -1,0 +1,63 @@
+<layout version="0.1.0">
+    <mediamanager_browse_index>
+        <reference name="content">
+            <block type="mediamanager/browse_results" name="mediamanager_results" template="mediamanager/browse/results.phtml">
+                <block type="mediamanager/browse_menu" name="mediamanager_menu" template="mediamanager/browse/menu.phtml" />
+                <block type="mediamanager/browse_footer" name="mediamanager_footer" template="mediamanager/browse/footer.phtml" />
+            </block>
+        </reference>
+    </mediamanager_browse_index>
+    <mediamanager_browse_mediatype>
+        <reference name="content">
+            <block type="mediamanager/browse_results" name="mediamanager_mediatype" template="mediamanager/browse/results.phtml">
+                <block type="mediamanager/browse_menu" name="mediamanager_menu" template="mediamanager/browse/menu.phtml"/>
+            </block>
+        </reference>
+    </mediamanager_browse_mediatype>
+    <mediamanager_browse_med>
+        <reference name="content">
+            <block type="mediamanager/browse_results" name="mediamanager_results" template="mediamanager/browse/results.phtml">
+                <block type="mediamanager/browse_menu" name="mediamanager_menu" template="mediamanager/browse/menu.phtml" />
+                <block type="mediamanager/browse_footer" name="mediamanager_footer" template="mediamanager/browse/footer.phtml" />
+            </block>
+        </reference>
+    </mediamanager_browse_med>
+    <mediamanager_browse_manufacturer>
+        <reference name="content">
+            <block type="mediamanager/browse_manufacturer" name="mediamanager_results" template="mediamanager/browse/manufacturer.phtml">
+                <block type="mediamanager/browse_menu" name="mediamanager_menu" template="mediamanager/browse/menu.phtml" />
+            </block>
+        </reference>
+    </mediamanager_browse_manufacturer>
+    <mediamanager_browse_man>
+        <reference name="content">
+            <block type="mediamanager/browse_results" name="mediamanager_results" template="mediamanager/browse/results.phtml">
+                <block type="mediamanager/browse_menu" name="mediamanager_menu" template="mediamanager/browse/menu.phtml" />
+                <block type="mediamanager/browse_footer" name="mediamanager_footer" template="mediamanager/browse/footer.phtml" />
+            </block>
+        </reference>
+    </mediamanager_browse_man>    
+    <mediamanager_browse_category>
+        <reference name="content">
+            <block type="mediamanager/browse_category" name="mediamanager_results" template="mediamanager/browse/category.phtml">
+                <block type="mediamanager/browse_menu" name="mediamanager_menu" template="mediamanager/browse/menu.phtml" />
+            </block>
+        </reference>
+    </mediamanager_browse_category>
+    <mediamanager_browse_cat>
+        <reference name="content">
+            <block type="mediamanager/browse_results" name="mediamanager_results" template="mediamanager/browse/results.phtml">
+                <block type="mediamanager/browse_menu" name="mediamanager_menu" template="mediamanager/browse/menu.phtml" />
+                <block type="mediamanager/browse_footer" name="mediamanager_footer" template="mediamanager/browse/footer.phtml" />
+            </block>
+        </reference>
+    </mediamanager_browse_cat>
+    <mediamanager_browse_search>
+        <reference name="content">
+            <block type="mediamanager/browse_results" name="mediamanager_results" template="mediamanager/browse/results.phtml">
+                <block type="mediamanager/browse_menu" name="mediamanager_menu" template="mediamanager/browse/menu.phtml" />
+                <block type="mediamanager/browse_footer" name="mediamanager_footer" template="mediamanager/browse/footer.phtml" />
+            </block>
+        </reference>
+    </mediamanager_browse_search>
+</layout>

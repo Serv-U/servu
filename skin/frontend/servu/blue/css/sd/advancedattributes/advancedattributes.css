@@ -1,0 +1,23 @@
+/* Advanced Filters Styling ============================================================== */
+.img-advancedattributes-tooltip {cursor:help}
+#tooltip {position: absolute; z-index: 3000; border: 1px solid #000; background-color: #E8EDF3;padding: 5px; width:150px; text-align:left; font-size:11px}
+#tooltip h3 {font-size: 11px; font-weight:normal; margin:0px;}
+dt.filter-collapsed { background: url("images/advancedattributes/expand-filter.gif") no-repeat scroll left 19px transparent; cursor: pointer;padding-left: 12px;}
+dt.filter-uncollapsed { background: url("images/advancedattributes/minimize-filter.gif") no-repeat scroll left 19px transparent; cursor: pointer;padding-left: 12px;}
+.attribute-loader {background-color: #FFFFFF;height: 100%;left: 0;opacity: 0.7;filter: alpha(opacity = 70);position: fixed;top: 0;width: 100%;z-index: 10000;}
+.attribute-loader-box {background-color:#FFF;opacity: 1.0;filter: alpha(opacity = 100);color: #000;font-size: 14px;height: 20px;position: fixed;text-align: center;
+    top: 40%;width: 340px;z-index: 10001;font-weight:bold;left:45%;height:50px;border-radius:6px;border:1px solid #ACACAC;box-shadow: 0 1px 5px 0 #000;padding:20px;font-size:18px}
+.block-layered-nav dd .checkbox-list li {margin:0px}
+.checkbox-list li{padding:2px 0px;margin:0px; position:relative}
+.checkbox-list li:hover, .checkbox-list li.active:hover{background-color:#e5e8fb}
+.checkbox-list li.active{background-color:#c9d0fc;}
+.checkbox-list li:active{top:1px;}
+.checkbox-list li label {cursor:pointer}
+.checkbox-list li .subcat-toggle {cursor:pointer; position:relative;top:1px} 
+.checkbox-list li .show {background:url("../../../images/servu-misc-sprite-sheet.png") no-repeat scroll 0px -216px transparent;}
+.checkbox-list li .hide {background:url("../../../images/servu-misc-sprite-sheet.png") no-repeat scroll -21px -216px transparent;}
+.checkbox-list ol.subcat-list li {padding-left:30px}
+.checkbox-list ol.subcat-list li label {margin-left:3px}
+#price-range-slider.ui-widget-content {background:none}
+.checkbox-list input[type="checkbox"]{}
+/* ======================================================================================= */

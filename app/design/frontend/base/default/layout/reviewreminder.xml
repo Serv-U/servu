@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <!-- goes in local -->
+    <reviewreminder_layout>
+        <block type='core/template' name='reviewmailer' template='reviewreminder/reviewreminder.phtml' />
+    </reviewreminder_layout>
+</layout>

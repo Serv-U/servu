@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <SD_HideCC>
+            <version>0.1.0</version>
+        </SD_HideCC>
+    </modules>
+    <global>
+        <blocks>
+            <payment>
+                <rewrite>
+                    <info_ccsave>SD_HideCC_Block_Ccsave</info_ccsave>
+                </rewrite>
+            </payment>
+        </blocks>
+    </global>    
+</config>

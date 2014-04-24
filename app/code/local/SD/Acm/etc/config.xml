@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <SD_Acm>
+            <version>0.3.8</version>
+        </SD_Acm>
+    </modules>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <acm before="Mage_Adminhtml">SD_Acm_Adminhtml</acm>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <newsletter>
+                <children>
+                    <acm module="sd_acm">
+                        <title>Abandoned Cart Mailer</title>
+                        <sort_order>50</sort_order>
+                        <children>
+                            <history module="sd_acm">
+                                <title>History</title>
+                                <sort_order>0</sort_order>
+                                <action>adminhtml/history</action>
+                            </history>
+                            <daily module="sd_acm">
+                                <title>Daily Statistics</title>
+                                <action>adminhtml/reports_statistics/daily</action>
+                            </daily>
+                            <individual module="sd_acm">
+                                <title>Individual Statistics</title>
+                                <action>adminhtml/individual</action>
+                            </individual>
+                        </children>
+                    </acm>
+                </children>
+            </newsletter>
+        </menu>
+        <layout>
+            <updates>
+                <sd_acm>
+                    <file>sd_acm.xml</file>
+                </sd_acm>
+            </updates>
+        </layout>
+    </adminhtml>
+    <frontend>
+        <layout>
+            <updates>
+                <sd_acm>
+                    <file>acm.xml</file>
+                </sd_acm>
+            </updates>
+        </layout>
+    </frontend>
+    <global>
+        <models>
+            <sd_acm>
+                <class>SD_Acm_Model</class>
+                <resourceModel>sd_acm_mysql4</resourceModel>
+            </sd_acm>
+            <sd_acm_mysql4>
+                <class>SD_Acm_Model_Mysql4</class>
+                <entities>
+                    <acm>
+                        <table>sd_carts_mailed</table>
+                    </acm>
+                    <emails>
+                        <table>sd_carts_sent</table>
+                    </emails>
+                    <complex>
+                        <table>sd_carts_reports</table>
+                    </complex>
+                    <unsubscribe>
+                        <table>sd_acm_unsubscribe</table>
+                    </unsubscribe>
+                </entities>
+            </sd_acm_mysql4>
+        </models>
+        <blocks>
+            <acm><class>SD_Acm_Block</class></acm>
+            <customer>
+               <rewrite>
+                   <newsletter>SD_Acm_Block_Newsletter</newsletter>
+               </rewrite>
+            </customer>
+        </blocks>
+        <helpers>
+            <sd_acm>
+                <class>SD_Acm_Helper</class>
+            </sd_acm>
+        </helpers>
+        <events>
+            <controller_action_predispatch_newsletter_manage_save>
+                <observers>
+                    <unsubscribe_acm_notification>
+                        <class>sd_acm/observer</class>
+                        <method>unsubscribeCartNotification</method>
+                    </unsubscribe_acm_notification>
+                </observers>
+            </controller_action_predispatch_newsletter_manage_save>
+        </events>
+        <resources>
+            <acm_setup>
+                <setup>
+                    <module>SD_Acm</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </acm_setup>
+            <acm_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </acm_write>
+            <acm_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </acm_read>
+        </resources>
+        <template>
+            <email>
+                <acm_acm_first_email_template>
+                    <label>Abandoned Cart First Email</label>
+                    <file>acm/acm_first.html</file>
+                    <type>html</type>
+                </acm_acm_first_email_template>
+                <acm_acm_second_email_template>
+                    <label>Abandoned Cart Second Email</label>
+                    <file>acm/acm_second.html</file>
+                    <type>html</type>
+                </acm_acm_second_email_template>
+                <acm_acm_third_email_template>
+                    <label>Abandoned Cart Third Email</label>
+                    <file>acm/acm_third.html</file>
+                    <type>html</type>
+                </acm_acm_third_email_template>
+            </email>
+        </template>
+    </global> 
+    <crontab>
+        <jobs>
+            <sd_acm>
+                <schedule>
+                    <!--Run job at 1am, uncomment the next line to do so-->
+                    <cron_expr>10,45 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>sd_acm/observer::acmMaintenance</model>
+                </run>
+            </sd_acm>
+        </jobs>
+    </crontab> 
+</config>

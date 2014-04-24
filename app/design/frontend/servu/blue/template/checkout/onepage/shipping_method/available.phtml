@@ -1,0 +1,248 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<script type="text/javascript">
+    //<![CDATA[
+    var updateShippingMethod = new UpdateShippingMethod('co-shipping-method-form', "<?php echo $this->getUrl('checkout/onepage/updateShippingMethod') ?>");
+    //]]>
+    var initialChecked = new Array();
+    var currentChecked = new Array();
+    
+    populateInitial();
+    
+    $$('#shipping-options input[type="checkbox"]').invoke('observe','click',function(field) {
+        var checked = false;
+        
+        if(initialChecked.indexOf(this.value) > -1 && !this.checked) {
+            checked = true;
+            currentChecked.splice(currentChecked.indexOf(this.value),1);
+        }
+        else if(initialChecked.indexOf(this.value) > -1 && this.checked) {
+            $$('#shipping-options input[type="checkbox"]').each(function(ele){
+                if($(ele).checked && initialChecked.indexOf($(ele).value) == -1) {
+                    checked = true;
+                }
+                else if($(ele).checked && initialChecked.indexOf($(ele).value) > -1 && currentChecked.indexOf($(ele).value) == -1) {
+                    currentChecked.push($(ele).value);
+                }
+            });
+            
+            if(initialChecked.length > 1 && !checked && !checkArrays(initialChecked, currentChecked)) {
+                checked = true;   
+            }
+        }
+        else {
+            $$('#shipping-options input[type="checkbox"]').each(function(ele){
+                if($(ele).checked && initialChecked.indexOf($(ele).value) == -1) {
+                    checked = true;
+                }
+            });
+        }
+        
+        if(!checkArrays(initialChecked, currentChecked)) {
+           checked = true; 
+        }
+         
+        if(checked) {
+            $$('#shipping-method-buttons-container button').invoke('addClassName','disabled');
+            $$('#shipping-method-buttons-container button').invoke('removeClassName','button');
+            $$('#shipping-method-buttons-container button').invoke('disable', 'true');
+        }
+        else {
+            $$('#shipping-method-buttons-container button').invoke('addClassName','button');
+            $$('#shipping-method-buttons-container button').invoke('removeClassName','disabled');
+            $$('#shipping-method-buttons-container button').invoke('enable', 'true');
+        }
+    });
+
+    $$('#shipping-update-buttons-container button').invoke('observe','click',function(field) {
+        initialChecked = [];
+        currentChecked = [];
+        populateInitial();
+    });
+    
+    function checkArrays( arrA, arrB ){
+        //check if lengths are different
+        if(arrA.length !== arrB.length) return false;
+
+        //slice so we do not effect the original
+        //sort makes sure they are in order
+        //join makes it a string so we can do a string compare
+        var cA = arrA.slice().sort().join(""); 
+        var cB = arrB.slice().sort().join("");
+
+        return cA===cB;
+    }
+    
+    function populateInitial(){
+        $$('#shipping-options input[type="checkbox"]').each(function(ele){
+            if($(ele).checked) {
+                initialChecked.push($(ele).value);
+            }
+        });
+    }
+    
+</script>
+<?php if (!($_shippingRateGroups = $this->getShippingRates())): ?>
+    <p><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></p>
+<?php else: ?>
+    <?php $freight = false; ?>
+    <?php $ups = false; ?>
+    <?php foreach ($_shippingRateGroups as $code => $_rates): ?>
+        <?php foreach ($_rates as $_rate): ?>
+            <?php if ($_rate->getMethodTitle() == 'UPS Ground') :?>
+            <?php $ups = true; ?>
+            <?php elseif ($_rate->getMethodTitle() == 'Standard Freight') :?>
+            <?php $freight = true; ?>
+            <?php elseif ($_rate->getMethodTitle() == 'UPS Ground w/ Standard Freight'):?>
+            <?php $freight = true; ?>
+            <?php $ups = true; ?>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    <?php endforeach; ?>
+    <div id="shipping-information" style="display:none">
+    <?php if ($freight): ?>
+    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('shipping_information')->toHtml() ?>
+    <?php endif; ?>
+    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('shipping_disclaimer')->toHtml() ?>
+    </div>
+    <?php $accessorials = $this->getAccessorialsInfo();?>
+    <div id="shipping-methods">
+    <dl class="sp-methods">  
+    <?php $shippingCodePrice = array(); ?>
+    <?php $_sole = count($_shippingRateGroups) == 1; foreach ($_shippingRateGroups as $code => $_rates): ?>
+        <dt><?php echo $this->getCarrierName($code) ?></dt>
+        <dd>
+            <ul>
+            <?php $_sole = $_sole && count($_rates) == 1; foreach ($_rates as $_rate): ?>
+                <?php $shippingCodePrice[] = "'".$_rate->getCode()."':".(float)$_rate->getPrice(); ?>
+                <li>
+                   <?php if ($_rate->getErrorMessage()): ?>
+                    <ul class="messages"><li class="error-msg"><ul><li><?php echo $_rate->getErrorMessage() ?></li></ul></li></ul>
+                   <?php else: ?>
+                        <?php if ($_sole) : ?>
+                        <span class="no-display"><input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>" checked="checked" /></span>
+                        <?php else: ?>
+                        <input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> class="radio"/>
+
+                        <?php if ($_rate->getCode() === $this->getAddressShippingMethod()): ?>
+                        <script type="text/javascript">
+                            //<![CDATA[
+                                lastPrice = <?php echo (float)$_rate->getPrice(); ?>;
+                            //]]>
+                        </script>
+                        <?php endif; ?>
+
+                        <?php endif; ?>
+                        <label for="s_method_<?php echo $_rate->getCode() ?>"><?php echo $_rate->getMethodTitle() ?>
+                        <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+                        <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
+                        <?php echo $_excl; ?>
+                        <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                            (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                        <?php endif; ?>
+                        </label>
+                   <?php endif ?>
+                </li>
+            <?php endforeach; ?>
+            </ul>
+        </dd>
+    <?php endforeach; ?>
+    </dl>
+    </div>
+    <?php if($freight || $ups) : ?>
+    <?php $accPrices = $this->getAccessorialsPricing() ?>
+    <div id="shipping-options">
+    <dl class="sp-methods">
+        <dt><?php echo $this->__('Shipping Options') ?></dt>
+        <dd>
+            <ul>
+                <?php if($freight) : ?>
+                <li>
+                    <input type="checkbox" name="s_extra[]" <?php echo $checkbox = (($accessorials) ? (in_array('s_extra_lfg', $accessorials)) ? 'checked' : '' : '');?> value="s_extra_lfg">
+                    <label for="s_extra_lfg"><?php echo $this->__('Lift Gate') ?> <span class="price"><?php echo Mage::helper('core')->currency($accPrices['lfg'],true,false) ?></span></label>
+                </li>
+                <li>
+                    <input type="checkbox" name="s_extra[]" <?php echo $checkbox = (($accessorials) ? (in_array('s_extra_notify', $accessorials)) ? 'checked' : '' : '');?> value="s_extra_notify">
+                    <label for="s_extra_notify"><?php echo $this->__('Pre-notify Delivery') ?> <span class="price"><?php echo Mage::helper('core')->currency($accPrices['notify'],true,false) ?></span></label>
+                </li> 
+                <?php endif; ?>
+                <li>
+                    <input type="checkbox" name="s_extra[]" <?php echo $checkbox = (($accessorials) ? (in_array('s_extra_residence', $accessorials)) ? 'checked' : '' : '');?> value="s_extra_residence">
+                    <label for="s_extra_residence"><?php echo $this->__('Delivery will be to a residence') ?> <span class="price"><?php echo Mage::helper('core')->currency($accPrices['residence'],true,false) ?></span></label>
+                </li>
+            </ul>
+        </dd>
+    </dl>
+    </div>
+    <div style="clear:both"></div>
+    <?php endif; ?>
+<script type="text/javascript">
+//<![CDATA[
+    <?php if (!empty($shippingCodePrice)): ?>
+        var shippingCodePrice = {<?php echo implode(',',$shippingCodePrice); ?>};
+    <?php endif; ?>
+
+    $$('input[type="radio"][name="shipping_method"]').each(function(el){
+        Event.observe(el, 'click', function(){
+            if (el.checked == true) {
+                var getShippingCode = el.getValue();
+                <?php if (!empty($shippingCodePrice)): ?>
+                    var newPrice = shippingCodePrice[getShippingCode];
+                    if (!lastPrice) {
+                        lastPrice = newPrice;
+                        quoteBaseGrandTotal += newPrice;
+                    }
+                    if (newPrice != lastPrice) {
+                        quoteBaseGrandTotal += (newPrice-lastPrice);
+                        lastPrice = newPrice;
+                    }
+                <?php endif; ?>
+                checkQuoteBaseGrandTotal = quoteBaseGrandTotal;
+                return false;
+            }
+       });
+    });
+//]]>
+</script>
+<?php endif; ?>
+<script>
+    if(document.getElementById('shipping-disclaimer') != null) {
+        document.getElementById('shipping-disclaimer').appendChild(
+        document.getElementById('shipping-information')
+      );
+
+      var e = GetElementInsideContainer("shipping-disclaimer", "shipping-information");
+
+      e.show();
+    }
+    
+    function GetElementInsideContainer(containerID, childID) {
+        var elm = document.getElementById(childID);
+        var parent = elm ? elm.parentNode : {};
+        return (parent.id && parent.id === containerID) ? elm : {};
+    }
+</script>

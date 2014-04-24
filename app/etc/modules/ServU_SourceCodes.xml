@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <ServU_SourceCodes>
+            <active>true</active>
+            <codePool>local</codePool>
+        </ServU_SourceCodes>
+    </modules>
+</config>

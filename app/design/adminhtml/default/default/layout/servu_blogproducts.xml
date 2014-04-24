@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<layout version="0.0.1">
+    <adminhtml_blogproducts_products>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="blogproducts/adminhtml_blog_edit_tab_products" name="products.grid"/>
+            <block type="adminhtml/widget_grid_serializer" name="products_serializer">
+                <reference name="products_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>products.grid</grid_block_name>
+                        <data_callback>getSelectedProducts</data_callback>
+                        <hidden_input_name>links[products]</hidden_input_name>
+                        <reload_param_name>products</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>position</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </adminhtml_blogproducts_products>
+    <adminhtml_blogproducts_productsgrid>
+        <block type="core/text_list" name="root">
+            <block type="blogproducts/adminhtml_blog_edit_tab_products" name="products.grid"/>
+        </block>
+    </adminhtml_blogproducts_productsgrid>
+    
+    
+    <adminhtml_catalog_product_edit>
+        <reference name="product_tabs">
+            <action method="addTab"><name>productblogs</name><block>blogproducts/adminhtml_catalog_product_edit_tabs</block></action>
+        </reference>
+    </adminhtml_catalog_product_edit>
+    <adminhtml_catalog_product_new>
+        <reference name="product_tabs">
+            <action method="addTab"><name>productblogs</name><block>blogproducts/adminhtml_catalog_product_edit_tabs</block></action>
+        </reference>
+    </adminhtml_catalog_product_new>
+
+    <adminhtml_catalog_product_productblogs>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="blogproducts/adminhtml_catalog_product_edit_tab_productblogs" name="productblogs.grid"/>
+            <block type="adminhtml/widget_grid_serializer" name="productblogs_grid_serializer">
+                <reference name="productblogs_grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>productblogs.grid</grid_block_name>
+                        <data_callback>getSelectedProductBlogs</data_callback>
+                        <hidden_input_name>links[productblogs]</hidden_input_name>
+                        <reload_param_name>productblogs</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>position</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </adminhtml_catalog_product_productblogs>
+    <adminhtml_catalog_product_productblogsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="blogproducts/adminhtml_catalog_product_edit_tab_productblogs" name="productblogs.grid"/>
+        </block>
+    </adminhtml_catalog_product_productblogsgrid>
+</layout>

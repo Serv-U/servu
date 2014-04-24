@@ -1,0 +1,93 @@
+<h1><?php echo $this->__('Catalog Request')?></h1>
+<p><?php echo $this->__("Enter your information below to receive our free catalog by mail");?></p>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+
+<form name="form" id="catalogrequest" method="post" action="<?php echo $this->getFormAction(); ?>" onsubmit="return verify();">
+              <ul>
+                  <li>
+                      <div class="input-box">
+                          <label for="firstname"><?php echo $this->__('First Name'); ?><span class="required">*</span></label>
+                          <input name="fname" type="text" class="input-text">
+                      </div>
+
+                      <div class="input-box">
+                          <label for="lastname"><?php echo $this->__('Last Name'); ?><span class="required">*</span></label>
+                          <input type="text" name="lname" class="required-entry input-text">
+                      </div>
+                  </li>
+                  <li>
+
+                      <div class="input-box">
+                          <label for="address1"><?php echo $this->__('Address'); ?><span class="required">*</span></label>
+                          <input type="text" name="address1" size="50" class="required-entry input-text">
+                      </div>
+                  </li>
+                  <li>
+                      <div class="input-box">
+                          <label for="address2"></label>
+                          <input type="text" name="address2" size="50" class=" input-text">
+                      </div>
+                  </li>
+                  <li>
+                      <div class="input-box">
+                          <label for="city"><?php echo $this->__('City'); ?><span class="required">*</span></label>
+                          <input type="text" name="city" class="required-entry input-text">
+                      </div>
+
+                      <div class="input-box">
+                          <label for="region"><?php echo $this->__('State/Province'); ?><span class="required">*</span></label>
+                          <select id="region_id" name="state" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display: none;">
+                              <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+                          </select>
+                          <input type="text" id="region" name="region" value=""  title="<?php echo $this->__('State/Province') ?>" class="input-text" style="display:none;" />
+                      </div>
+                  </li>
+                  <li>
+                      <div class="input-box">
+                          <label for="zip"><?php echo $this->__('Zip Code'); ?><span class="required">*</span></label>
+                          <input type="text" name="zip" class="required-entry input-text">
+                      </div>
+
+                      <div class="input-box">
+                          <label for="country"><?php echo $this->__('Country'); ?><span class="required">*</span></label>
+                          <?php echo Mage::getBlockSingleton('directory/data')->getCountryHtmlSelect(); ?>
+                      </div>
+                  </li>
+                  <li>
+                      <div class="input-box">
+                          <label for="phone"><?php echo $this->__('Phone'); ?></label>
+                          <input type="text" name="phone" class=" input-text">
+                      </div>
+                  </li>
+                  <li>
+                      <div class="input-box">
+                          <label for="email"><?php echo $this->__('Email'); ?></label>
+                          <input type="text" name="email" class="validate-email input-text" size="50">
+                      </div>
+                  </li>
+                  <li><input name="updates" id="updates" value="1" type="checkbox" /> <label for="updates" style="display: inline;"><?php echo $this->__('Send me email updates on sales and promotions'); ?>.</label></li>
+
+              </ul>
+        <ul>
+
+        <li><label for="heardofus"><?php echo $this->__('Where did you hear about us?'); ?></label>
+          <!-- These can be changed to your liking -->
+            <select name="heardofus" id="heardof">
+                <option value="">Choose wisely</option>
+                <option value="searchengine">Search Engine</option>
+                <option value="magazinead">Magazine Ad</option>
+                <option value="producteval">Product Evaluation</option>
+                <option value="referral">Referral from another rider</option>
+                <option value="catalog">Aerostich Catalog</option>
+                <option value="postcard">Free Catalog Postcard</option>
+                <option value="aliens">Aliens</option>
+            </select>
+        </li>
+        <li><input type="submit" name="Send" value="<?php echo $this->__('Submit'); ?>"></li>
+    </ul>
+</form>
+
+<script type="text/javascript">
+    var dataForm = new VarienForm('catalogrequest', true);
+    new RegionUpdater('country', 'region', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>);
+</script>

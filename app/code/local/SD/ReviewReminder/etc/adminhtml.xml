@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <reviewreminder translate="title">
+                                        <title>Review Reminder</title>
+                                        <sort_order>520</sort_order>
+                                    </reviewreminder>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <catalog>
+                        <children>
+                            <reviews_ratings>
+                                <children>
+                                    <reviewreminder>
+                                        <title>Review Reminder</title>
+                                        <sort_order>700</sort_order>
+                                        <children>
+                                            <history>
+                                                <title>History</title>
+                                                <sort_order>0</sort_order>
+                                            </history>
+                                            <individual>
+                                                <title>Individual Statistics</title>
+                                                <sort_order>20</sort_order>
+                                            </individual>
+                                        </children>
+                                    </reviewreminder>
+                                </children>
+                            </reviews_ratings>
+                        </children>
+                    </catalog>
+                 </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

@@ -1,0 +1,88 @@
+﻿<?php
+$reportData = $this->getGridHtml();        
+?>
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td style="<?php echo $this->getHeaderWidth() ?>"><?php echo $this->getHeaderHtml() ?></td>
+            <td class="form-buttons"><?php echo $this->getButtonsHtml() ?></td>
+        </tr>
+    </table>
+</div>
+<div>
+    <?php echo $this->getChildHtml('store.switcher') ?>
+</div>
+
+<div class="entry-edit" style="border:1px solid #ccc;">
+<ul id="diagram_tab" class="tabs-horiz">
+    <li>
+        <a href="#" id="diagram_tab_filter" title="Filter" class="tab-item-link active">
+            <span><span class="changed" title="The information in this tab has been changed."></span><span class="error" title="This tab contains invalid data. Please solve the problem before saving."></span>Filter</span>
+        </a>
+        
+    </li>
+    <li>
+        <a href="#" id="diagram_tab_customers" title="Customers" class="tab-item-link">
+            <span><span class="changed" title="The information in this tab has been changed."></span><span class="error" title="This tab contains invalid data. Please solve the problem before saving."></span>Customers</span>
+        </a>
+        
+    </li>
+	    <li>
+        <a href="#" id="diagram_tab_orders" <?php echo 'title="'.$this->getSecondTabName().'"' ?> class="tab-item-link">
+            <span><span class="changed" title="The information in this tab has been changed."></span><span class="error" title="This tab contains invalid data. Please solve the problem before saving."></span><?php echo $this->getSecondTabName() ?></span>
+        </a>
+        
+    </li>
+
+</ul>
+<script type="text/javascript">
+   <?php if($this->getCount()): ?>
+    diagram_tabJsTabs = new varienTabs('diagram_tab', 'diagram_tab_content', 'diagram_tab_customers', []);
+	<?php else: ?>
+    diagram_tabJsTabs = new varienTabs('diagram_tab', 'diagram_tab_content', 'diagram_tab_filter', []);
+	<?php endif; ?>
+</script>
+<div id="diagram_tab_content"><div id="diagram_tab_filter_content" style=""><div style="margin:20px;">
+  <br>
+			<?php echo $this->getChildHtml('grid.filter.form') ?>
+    </div>
+</div><div id="diagram_tab_customers_content" style="display: none;"><div style="margin:20px;">
+   
+     <?php if($this->getCount()): ?>
+		 <p  style="width:587px;height:300px; margin:0 auto;"> <img src="<?php echo $this->getChartUrl(false) ?>" alt="chart" title="chart" /></p>
+    <?php else: ?>
+    <p class="a-center" style="width:587px;height:150px; margin:0 auto;"><?php echo $this->__('No Data Found') ?></p>
+    <?php endif; ?>
+			
+    </div>
+</div>
+<div id="diagram_tab_orders_content" style="display: none;"><div style="margin:20px;">
+   
+     <?php if($this->getCount()): ?>
+		 <p  style="width:587px;height:300px; margin:0 auto;"> <img src="<?php echo $this->getChart2Url(false) ?>" alt="chart" title="chart" /></p>
+    <?php else: ?>
+    <p class="a-center" style="width:587px;height:150px; margin:0 auto;"><?php echo $this->__('No Data Found') ?></p>
+    <?php endif; ?>
+			
+    </div>
+</div>
+</div>
+</div>
+<div>
+    <?php echo $reportData ?>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    function filterFormSubmit() {
+        var filters = $$('#filter_form input', '#filter_form select');
+        var elements = [];
+        for(var i in filters){
+            if(filters[i].value && filters[i].value.length && !filters[i].disabled) elements.push(filters[i]);
+        }
+        var validator  = new Validation('filter_form');
+        if (validator.validate()) {
+            setLocation('<?php echo $this->getFilterUrl(); ?>filter/'+encode_base64(Form.serializeElements(elements))+'/');
+        }
+    }
+//]]>
+</script>

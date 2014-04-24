@@ -1,0 +1,77 @@
+<?php
+
+	$_items = $this->getValuesCollection()->getItems();
+
+	$attribute_code = $this->getData('attribute_code');
+	$_helper = $this->helper('sd_manager/manufacturerInfo');
+?>
+<?php if (count($_items)):?>
+<script type="text/javascript">
+
+jQuery(document).ready(function() {
+    jQuery('#manufacturer-carousel').jcarousel({
+    	wrap: 'circular',
+        scroll: 1
+    });
+});
+
+</script>
+<ul id="manufacturer-carousel" class="jcarousel-skin-bsd">
+    <?php foreach ($_items as $item):?>
+        <li>
+<?php
+
+	$_imgHtml   = '';
+	$max  = 75;
+        
+	if (($file = Mage::getBaseDir('media'). DS . 'catalog' . DS . 'manufacturers' . DS .$item->getLogo()) && is_file($file)) {
+	    $imageInfo = getimagesize($file);
+        $width  = $imageInfo[0];
+        $height = $imageInfo[1];
+
+        $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
+          
+	if ($height) $thumbnail_width  = intval($width - ($width - 75));
+	if ($width)  $thumbnail_height = intval($height - ($height - 75));
+
+        //resizer looks in /media/catalog/product, our images are in /media/catalog/attribute
+        //so we go one level above product with ../
+        $_imgUrl = Mage::helper('sd_manager/image')
+        	->initImage($attribute_code, $item->getLogo())
+        	->resize($thumbnail_width, $thumbnail_height)
+        	->__toString();
+
+		$_imgHtml = '<img
+			width="'.($thumbnail_width ? $thumbnail_width : $width) .'"
+	        src="'.$_imgUrl.'"
+	        alt="'.$this->htmlEscape($item->getValue()).'"
+	        title="'.$this->htmlEscape($item->getValue()).'"
+	        class="attribute-values-logo" />';
+	}
+        
+        if($item->getUrlKey() != '') {
+            $urlKey = $item->getUrlKey();
+        } else {
+            $urlKey = $item->getIdentifier();
+        }
+
+	if ($_imgHtml) {
+		?><a
+			href="<?php echo $this->getUrl('/').$item->getAttributeCode().'/'.$urlKey; ?>"
+			title="<?php echo $item->getValue()?>"><?php
+			echo $_imgHtml;
+		?></a><?php
+	} else {
+		?>
+		<a
+				href="<?php echo $this->getUrl('/').$item->getAttributeCode().'/'.$urlKey ?>"
+				title="<?php echo $this->htmlEscape($item->getName())?>"><?php
+					echo $item->getValue();
+		?></a>
+		<?php
+	}
+	?>
+        </li>
+    <?php endforeach; ?>
+</ul>
+<?php endif;?>

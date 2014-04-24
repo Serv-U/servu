@@ -1,0 +1,250 @@
+<?php
+/**
+* aheadWorks Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://ecommerce.aheadworks.com/AW-LICENSE-COMMUNITY.txt
+ *
+ * =================================================================
+ *                 MAGENTO EDITION USAGE NOTICE
+ * =================================================================
+ * This package designed for Magento COMMUNITY edition
+ * aheadWorks does not guarantee correct work of this extension
+ * on any other Magento edition except Magento COMMUNITY edition.
+ * aheadWorks does not provide extension support in case of
+ * incorrect edition usage.
+ * =================================================================
+ *
+ * @category   AW
+ * @package    AW_Blog
+ * @version    1.1.1
+ * @copyright  Copyright (c) 2010-2012 aheadWorks Co. (http://www.aheadworks.com)
+ * @license    http://ecommerce.aheadworks.com/AW-LICENSE-COMMUNITY.txt
+ */
+?>
+<script type="text/javascript">
+    function commentQuote(commentId){
+        var quoteId = "quote"+commentId;
+        var quoteText = document.getElementById(quoteId).innerHTML;
+        
+        if (document.getElementById("comment").value){
+            document.getElementById("comment").value += "\n\n";
+        }
+        document.getElementById("comment").value += "[quote]"+quoteText+"[/quote]";
+    }
+    
+    function commentReply(commentId, count){
+        document.getElementById("replycheckbox").disabled = false;
+        document.getElementById("reply").value = commentId;
+        document.getElementById("replycheckbox").checked = true;
+        document.getElementById("replylabel").innerHTML = "Reply to Comment #"+count;
+        document.getElementById("replyarea").style.display = "block";
+    }
+    
+    function replyupdate(){
+        document.getElementById("reply").value = '';
+        document.getElementById("replycheckbox").disabled = true;
+        document.getElementById("replyarea").style.display = "none";
+    }
+    
+</script>
+
+<?php $post = $this->getPost(); ?>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+
+<?php echo $this->getChildHtml('blogbanner'); ?>
+
+<div class="postWrapper">
+    <div class="postTitle">
+        <h2><?php echo $post->getTitle(); ?></h2>
+        <span class="blog_date">
+            <strong><?php echo Mage::helper('blog')->__('Date: '); ?></strong>
+            <?php echo $post->getCreatedTime(); ?>
+        </span>
+        <span class="blog_author">
+            <strong><?php echo$this->__("Author: "); ?></strong>
+            <a href="<?php echo $post->getGoogleplus(); ?>?rel=author" target="_blank"><?php echo $post->getUser(); ?></a>
+            <span class="blog_leave_comment">
+                <a href="#commentForm">Leave a Comment</a> | <a href="#comment1">Go to Comments</a>
+            </span>
+        </span>
+    </div>
+
+    <div class="postContent"><?php echo $post->getPostContent(); ?></div>
+    <?php echo $this->getBookmarkHtml($post) ?>
+    <div class="postDetails">
+        <?php $postCats = $post->getCats(); ?>
+        <?php if (!empty($postCats)): ?>
+            <strong><?php echo Mage::helper('blog')->__('Categories: '); ?></strong>
+            <?php foreach ($postCats as $title => $url): ?>
+                <a href="<?php echo $url; ?>"><?php echo $title; ?></a> 
+            <?php endforeach; ?> 
+        <?php else: ?>
+            <?php echo Mage::helper('blog')->__('Posted'); ?>
+        <?php endif; ?>
+        <div class="tags"><?php echo Mage::getBlockSingleton('blog/blog')->getTagsHtml($post) ?></div>
+    </div>
+</div>
+
+<?php echo $this->getChildHtml('blogproducts'); ?>
+
+<div id="post_bottom_links">
+    <a href="#commentForm">Leave Comment</a>
+    <span id="number_of_comments"><a href="#comment1"><?php echo $this->getCommentTotalString($this->getComment()); ?></a></span>
+</div>
+
+<!-- Comment Section -->
+
+<?php if ($this->getCommentsEnabled()): ?>
+    <?php $comments = $this->getComment(); ?>
+    <?php $responses = $this->getReply(); ?>
+    <!--
+    <div class="postTitle"><a name="commentBox" ></a>
+        <h2><?php //echo $this->getCommentTotalString($comments); ?></h2>
+    </div>
+    -->
+    <?php $count = 0; ?>
+    <?php foreach ($comments as $comment) : ?>
+        <?php $count++; ?>
+        <div class="commentWrapper" id="comment<?php echo $count; ?>">
+            <div class="blog_username"><span style="padding-right: 60%"><?php echo $comment->getUser(); ?></span></div>
+            <div class="commentSubWrapper">
+                <div class="commentDetails">
+                    <span class="blog_reply"><a href="#commentForm" onclick="commentReply(<?php echo $comment->comment_id.",".$count; ?>)">Reply</a> | <a href="#commentForm" onclick="commentQuote(<?php echo $count; ?>)">Quote</a></span>
+                    <strong><?php echo $this->__("Date: ") ?></strong>
+                    <?php echo $this->formatDate($comment->getCreatedTime(), Mage::getStoreConfig('blog/blog/dateformat'), true)." | "; ?>
+                    <span class="blogColor"><?php echo $this->__("#$count") ?></span>
+                </div>
+                <div class="commentContent"><?php echo $this->helper('blog/post')->formatquote($comment->getComment()); ?></div>
+            </div>
+            <span id="quote<?php echo $count; ?>" style="display: none;"><?php echo $comment->getCreatedTime()." comment by ".$comment->getUser()."\n".$comment->getComment(); ?></span>
+        </div>
+            <?php foreach ($responses as $reply) : ?>
+                <?php if ($reply->reply === $comment->comment_id): ?>
+                    <div class="replyWrapper" id="reply<?php echo $count; ?>">
+                        <div class="reply_username"><span style="padding-right: 50%"><?php echo $reply->getUser(); ?></span></div>
+                        <div class="replySubWrapper">
+                            <div class="commentDetails">
+                                <strong><?php echo $this->__("Date: ") ?></strong>
+                                <?php echo $this->formatDate($reply->getCreatedTime(), Mage::getStoreConfig('blog/blog/dateformat'), true)." | "; ?>
+                                <span class="blogColor"><?php echo $this->__("#$count") ?></span>
+                            </div>
+                            <div class="commentContent"><?php echo $this->helper('blog/post')->formatquote($reply->getComment()); ?></div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>  
+
+    <?php endforeach; ?>
+
+    <!-- Comments per page implementation -->
+    <?php if ($this->getPageCount() > 1) : ?>
+        <div class="post-pagelist">
+            <?php for ($i = 1; $i <= $this->getPageCount(); $i++) : ?>
+                <?php if ($this->current($i)): ?>    
+                    <span><?php echo $i ?></span>
+                    <?php if ($i != $this->getPageCount()): ?>            
+                        <span class="separator">|</span>               
+                    <?php endif ?> 
+                <?php else: ?>       
+                    <a href="<?php echo $this->getPageAddress($i) ?>"><?php echo $i ?></a>
+                    <?php if ($i != $this->getPageCount()) : ?>
+                        <span class="separator">|</span>
+                    <?php endif ?>  
+                <?php endif; ?>
+            <?php endfor ?>
+        </div>   
+    <?php endif ?>
+    <!--        -->
+
+    <?php if ($post->getComments()): ?>
+        <div class="postError"><?php echo Mage::helper('blog')->__('Comments are Closed for this post') ?></div>
+    <?php else: ?>
+        <?php if ($this->getLoginRequired()): ?>
+            <?php if ($this->helper('customer')->isLoggedIn()): ?>
+                <form action="" id="postComment" method="post">  
+                    <fieldset class="group-select">
+                        <h4 class="legend"><?php echo Mage::helper('blog')->__('Submit Comment') ?></h4>
+                        <ul class="form-list">
+                            <li>
+
+                                <div class="input-box aw-blog-comment-area">
+                                    <label for="comment" class="required"><?php echo Mage::helper('blog')->__('Comment') ?><em>*</em></label><br />
+                                    <textarea name="comment" id="comment" title="<?php echo $this->__('Comment') ?>" class="required-entry input-text" style="height:150px;width:95%;" cols="50" rows="5"><?php echo $this->getCommentText(); ?></textarea>
+                                </div>
+                            </li>
+                        </ul>
+                    </fieldset>
+                    <div class="button-set">
+                        <input name="post_id" type="hidden" value="<?php echo $post->getPostId(); ?>" />
+                        <input name="email" type="hidden" value="<?php echo $this->htmlEscape($this->helper('blog')->getUserEmail()) ?>"/>
+                        <input name="user" type="hidden" value="<?php echo $this->htmlEscape($this->helper('blog')->getUserName()) ?>"/>
+                        <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+                        <button class="form-button button" type="submit"><span><span><?php echo Mage::helper('blog')->__('Submit Comment') ?></span></span></button>
+                    </div>
+                </form>
+
+                <script type="text/javascript">
+                    var contactForm = new VarienForm('postComment', false);
+                </script>            
+
+            <?php else: ?>
+                <p><?php echo Mage::helper('blog')->__('You must be logged in to post a comment.'); ?></p>
+                <p><a href="<?php echo Mage::helper('customer')->getLoginUrl(); ?>"><?php echo Mage::helper('blog')->__('click here'); ?></a> <?php echo Mage::helper('blog')->__('to log in'); ?></p>
+            <?php endif ?>
+
+        <?php else: ?>
+
+            <form action="" id="postComment" method="post">
+                <fieldset class="group-select" id="commentForm">
+                    <!--<h4 class="legend"><?php //echo Mage::helper('blog')->__('Submit Comment') ?></h4>-->
+                    <ul class="form-list">
+                        <li>
+                            <div class="input-box blogInput">
+                                <input name="user" id="user" value="<?php echo $this->getCommentName(); ?>" title="<?php echo $this->__('Name') ?>" class="required-entry input-text" type="text" />
+                                <label for="name" class="required blogName"><?php echo Mage::helper('blog')->__('Name') ?><em>*</em></label>
+                            </div>
+
+                            <div class="input-box blogInput">
+                                <input name="email" id="email" value="<?php echo $this->getCommentEmail(); ?>" title="<?php echo $this->__('Email') ?>" class="required-entry input-text validate-email" type="text" />
+                                <label for="email" class="required blogEmail"><?php echo Mage::helper('blog')->__('Email (will not be published)') ?><em>*</em></label>
+                            </div>
+
+                            <div class="input-box blogInput" style="display: none;">
+                                <input type="confirm_email" name="confirm_email" id="password" title="<?php echo Mage::helper('blog')->__('Confirm Email') ?>" class="input-text" />
+                                <label for="confirm_email"><?php echo Mage::helper('blog')->__('Confirm Email') ?><em>*</em></label><br />
+                            </div>
+
+                            <div class="input-box blogInput" id="replyarea" style="display: none;">
+                                <input name="reply" id="reply" style="display: none;" title="<?php echo $this->__('Reply') ?>" class="input-text" type="text" />
+                                <input name="replycheckbox" id="replycheckbox" title="<?php echo $this->__('Reply') ?>" class="input-text" type="checkbox" onclick="replyupdate()" disabled="disabled" style="width: 260px;"/>
+                                <label id="replylabel"><?php echo Mage::helper('blog')->__('Reply') ?></label>
+                            </div>
+                            
+                            <div class="clear"></div>
+
+                            <span class="blogRequired"><?php echo $this->__('* Required Fields') ?></span>
+
+                            <div class="input-box aw-blog-comment-area">
+                                <!--<label for="comment" class="required"><?php //echo Mage::helper('blog')->__('Comment') ?><em>*</em></label><br/>-->
+                                <textarea name="comment" id="comment" title="<?php echo Mage::helper('blog')->__('Comment') ?>" class="required-entry input-text" style="height:150px;width:675px;" cols="50" rows="5"><?php echo $this->getCommentText(); ?></textarea>
+                            </div>
+                        </li>                      
+                    </ul>
+                </fieldset>
+                <div class="button-set">
+                    <input name="post_id" type="hidden" value="<?php echo $post->getPostId(); ?>" />
+                    <button class="button form-button" type="submit"><span><span><?php echo Mage::helper('blog')->__('Submit Comment') ?></span></span></button>
+                </div>
+            </form>
+
+            <script type="text/javascript">
+                var contactForm = new VarienForm('postComment', false);
+            </script>
+        <?php endif; ?>
+    <?php endif; ?>
+<?php endif; ?>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <ServU_Extjs>
+            <version>0.1</version>
+        </ServU_Extjs>
+    </modules>
+    <global>
+        <blocks>
+            <page>
+                <rewrite>
+                    <html_head>ServU_Extjs_Block_Head</html_head>
+                </rewrite>
+            </page>
+            <catalog>
+                <rewrite>
+                    <product_view>ServU_Extjs_Block_Product_View</product_view>
+                </rewrite>
+            </catalog>
+        </blocks>
+    </global>
+</config>
+

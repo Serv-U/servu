@@ -1,0 +1,63 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product description template
+ *
+ * @see Mage_Catalog_Block_Product_View_Description
+ */
+
+    $product_id = Mage::registry('current_product')->getId();
+    $collection = Mage::getModel('mediamanager/products')->getCollection()
+              ->addFieldToFilter('product_id',$product_id);
+?>
+<?php if ($collection->getFirstItem()->getFileId() && Mage::helper('mediamanager/data')->checkEnabledFiles($collection)): ?>
+    <h2><?php echo $this->__('File Downloads') ?></h2>
+    <div class="std">
+<?php 
+        foreach ($collection as $this_file){
+            $file_id = $this_file->getFileId();
+            $model = Mage::getModel('mediamanager/mediamanager')->load($file_id);
+            $file_status = $model->getData('file_status');
+            $absolute_filepath = Mage::helper('mediamanager/data')->getFilePath($file_id, false);
+
+            if($file_status == 1 && is_file($absolute_filepath)){
+                $file_url = Mage::helper('mediamanager/data')->getFilePath($file_id, true);
+                $file_title = $model->getData('file_title');
+                $file_size = Mage::helper('mediamanager/data')->convertFileSize($model->getData('file_size'));
+
+                //Only open certain file types in new tab
+                $blank_extentions = array('pdf','jpg','jpeg','gif');
+                $file_extension = $model->getData('file_extension');
+                $target = (in_array($file_extension, $blank_extentions)) ? "target='blank'" : "";
+                
+                echo "<div class='mm_icon'><a href='".urldecode($file_url)."' $target>".$file_title."</a> (".$file_size.")</div>";
+                //echo "<em><a href='http://docs.google.com/viewer?url=".$file_url."' target='blank'>View with Google Docs</a></em><br/><br/>";
+            }
+        }
+?>
+    </div>
+<?php endif; ?>

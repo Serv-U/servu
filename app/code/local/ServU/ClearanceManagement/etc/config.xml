@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <ServU_ClearanceManagement>
+            <version>0.0.1</version>
+	</ServU_ClearanceManagement>
+    </modules>
+    <global>
+        <blocks>
+            <clearancemanagement><class>ServU_ClearanceManagement_Block</class></clearancemanagement>
+        </blocks>
+        <helpers>
+            <clearancemanagement>
+                <class>ServU_ClearanceManagement_Helper</class>
+            </clearancemanagement>
+        </helpers>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <use>admin</use>
+                <args>
+                    <modules>
+                        <ServU_ClearanceManagement before="Mage_Adminhtml">ServU_ClearanceManagement_Adminhtml</ServU_ClearanceManagement>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+</config>

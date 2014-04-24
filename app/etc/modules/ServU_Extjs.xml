@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <ServU_Extjs>
+            <active>true</active>
+            <codePool>local</codePool>
+        </ServU_Extjs>
+    </modules>
+</config>
+

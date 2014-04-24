@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+<config>
+    <menu>
+        <catalog>
+            <children>
+                <clearance translate="title">
+                    <title><![CDATA[Clearance Migration]]></title>
+                    <children>
+                        <migration translate="title">
+                            <title>Migrate Products to Clearance</title>
+                            <action>adminhtml/migration</action>
+                        </migration>
+                        <disable translate="title">
+                            <title>Disable Clearance Products</title>
+                            <action>adminhtml/disable</action>
+                        </disable>
+                    </children>
+                    <sort_order>500</sort_order>
+                </clearance>
+            </children>
+        </catalog>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <catalog>
+                        <children>
+                            <clearance translate='title'>
+                                <title><![CDATA[Clearance Migration]]></title>
+                                <children>
+                                    <migration translate="title">
+                                        <title>Migrate Products to Clearance</title>
+                                    </migration>
+                                    <disable translate="title">
+                                        <title>Disable Clearance Products</title>
+                                    </disable>
+                                </children>
+                                <sort_order>5</sort_order>
+                            </clearance>
+                        </children>
+                    </catalog>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <clearance_migration_section translate="title">
+                                        <title>Clearance Migration</title>
+                                        <sort_order>500</sort_order>
+                                    </clearance_migration_section>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                 </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

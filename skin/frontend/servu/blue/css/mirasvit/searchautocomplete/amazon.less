@@ -1,0 +1,227 @@
+@import "mixin.less";
+
+.searchautocomplete {
+    .border-radius(0px 0px 0px 5px);
+    display: block;
+
+    .sprite {
+        background: url('../../../images/mirasvit/sprite.png');
+    }
+
+    >label {
+        float: left;
+        margin-right: 10px;
+        color: #333;
+        font-weight: bold;
+        margin-top: 8px;
+    }
+
+    .nav {
+        float: left;
+        padding-top:2px;
+        position:relative;
+
+        .nav-search-in {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            z-index: 15;
+
+            .category {
+                .opacity(0);
+                background: white;
+                border: 1px solid #DDD;
+                color: black;
+                cursor:pointer;
+                height:29px;
+                left: 5px;
+                margin: 0;
+                outline: 0;
+                padding: 0;
+                position: absolute;
+                top: 5px;
+                visibility: visible;
+                width: auto;
+            }
+
+
+            .category-fake {
+                .border-radius(5px 0px 0px 5px);
+                #gradient > .vertical(#ffffff, #f7f7f7);
+                border-right: 1px solid #dddddd;
+                color: #777;
+                cursor: pointer;
+                float: left;
+                font-size: 11px;
+                height: 27px;
+                line-height: 27px;
+                margin: 4px 0px 0px 2px;
+                padding: 0px 25px 0px 10px;
+                text-align: center;
+                white-space: nowrap;
+            }
+
+            .nav-down-arrow {
+                .sprite();
+                width: 9px;
+                height: 5px;
+                background-position: -26px -34px;
+                display: block;
+                right: 10px;
+                top: 16px;
+                position: absolute;
+            }
+
+            &:hover {
+                .category-fake {
+                    #gradient > .vertical(#f7f7f7, #e1e1e1);
+                }
+                .nav-down-arrow {
+                    background-position: -6px -34px;
+                }
+            }
+
+        }
+
+
+        input {
+            border: 1px solid #535353;
+            color: #BBBBBB;
+            float: left;
+            margin-right: 0;
+            padding: 5px 5px 4px;
+            width: 200px;
+
+            &.suggest {
+                display: none;
+                color: #999;
+                z-index: 9;
+            }
+            
+            &:focus {
+                color:#000;
+            }
+        }
+    }
+
+    .button {
+        padding: 0px 9px;
+        margin: 0px;
+        cursor: pointer;
+        font-weight: bold;
+        color: white;
+        line-height: 12px;
+        font-size: 13px;
+        #gradient > .vertical(#444c55, #313a44);
+        border: 1px solid #313a44;
+        z-index: 14;
+        height:25px;
+
+        &:hover {
+            #gradient > .vertical(#313a44, #444c55);
+        }
+
+    }
+
+    .searchautocomplete-placeholder {
+        background: #FFF;
+        border: 1px solid #ACACAC;
+        padding-top: 15px;
+        position: absolute;        
+        top: 183px;
+        width: 275px;
+        z-index: 9999;
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0px 5px;
+
+            li {
+                .clearfix();
+                text-align: left;
+                padding: 5px 5px;
+                border-bottom: 1px solid #ACACAC;
+
+                a {
+                    text-decoration: none;
+
+                    .pull-right {
+                        float: right;
+                    }
+                }
+
+                &.active {
+                    background-color: #eeeeee;
+                    cursor: pointer;
+
+                    a {
+                        text-decoration: none;
+                    }
+                }
+
+                .searchautocomlete-image {
+                    float: left;
+                    margin: 0px 10px 5px 0px;
+                }
+
+                .price-box {
+                    font-weight: bold;
+                    font-size: 13px;
+                    color: #C76200;
+
+                    .regular-price, .old-price, .special-price {
+                        .price-label {
+                            display: none;
+                        }
+                    }
+
+                    .price-label {
+                        font-weight: normal;
+                        color: #999;
+                    }
+
+                    .old-price {
+                        .price {
+                            font-size: 0.9em;
+                            color: #999;
+                        }
+                    }
+                }
+            }
+        }
+
+        .index-title {
+            text-align: right;
+            color: #0A263C;
+            border-bottom: 1px solid #ACACAC;
+            padding: 2px 5px;
+
+            span {
+                color: #666;
+                font-size: 0.9em;
+            }
+        }
+        .all {
+            text-align: right;
+            margin: 10px 10px 5px 10px;
+        }
+    }
+
+    .searchautocomplete-loader {
+        position: absolute;
+        top: 7px;
+        right: 68px;
+        .size(16px, 16px);
+        background: url('../../../images/mirasvit/loader.gif');
+    }
+}
+
+.searchautocomplete-widget {
+    position: relative;
+    top: auto;
+    left: auto;
+    bottom: auto;
+    right: auto;
+     .border-radius(5px);
+}

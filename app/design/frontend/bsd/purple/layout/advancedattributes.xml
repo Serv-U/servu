@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/sd/advancedattributes/advancedattributes.js</name></action>
+            <action method="addItem"><type>skin_css</type><name>css/sd/advancedattributes/advancedattributes.css</name></action>
+        </reference>
+    </default>
+    
+    <catalog_category_layered>
+        <reference name="left">
+            <remove name="catalog.leftnav" />
+            <block type="catalog/layer_view" name="advancedattributes.catalog.leftnav" after="currency" template="advancedattributes/catalog/layer/view.phtml" />
+        </reference>
+    </catalog_category_layered>
+    
+    <catalogsearch_result_index translate="label">
+        <reference name="left">
+            <remove name="catalogsearch.leftnav" />
+            <block type="catalogsearch/layer" name="advancedattributes.catalogsearch.leftnav" after="currency" template="advancedattributes/catalog/layer/view.phtml"/>
+        </reference>
+    </catalogsearch_result_index>
+</layout>

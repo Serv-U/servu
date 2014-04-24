@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <SD_Ordercomments>
+      <active>true</active>
+      <codePool>local</codePool>
+    </SD_Ordercomments>
+  </modules>
+</config> 

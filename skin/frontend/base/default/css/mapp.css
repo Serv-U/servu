@@ -1,0 +1,32 @@
+/*Styles for All Mapp Pages*/
+.mappcart-text-view { color: red; font-weight:bold; margin-top: 1em; }
+.mapp-label, #mapp-label { font-weight: bold; margin-bottom: 2px; }
+
+/*Catalog View Page Mapp Styling*/
+.product-view #mapp-form-container { margin-top: 1em; padding: 5px 6px; border: 1px solid #acacac; }
+.product-view #mapp-email-container { }
+.product-view #mapp-email { margin:5px 0px 0px 0px; height: 18px; width: 195px; }
+.product-view #mapp-email.validation-failed { height: 20px; }
+.product-view #mapp-submit { margin:5px 0px 0px 0px;float:right}
+.product-view #mapp-submit span { }
+.product-view #mapp-response { margin-top: 10px; }
+.product-view #mapp-loading { margin-top: 5px; }
+
+/*List Page Mapp Styling*/
+.products-list .mappBoxList { margin: -10px 0 5px 0; }
+.products-list .mapp-email-container { width: 185px; float: left; display: block; }
+.products-list .mapp-email-container input { margin-top: 0.4em; height: 18px; width: 182px; }
+.products-list .mapp-submit { margin-top: 0.4em; margin-left: 5px; width: 80px; }
+.products-list .mapp-submit span { padding: 0 0 0 10px; }
+.products-list .validation-failed { height: 20px !important; width: 184px !important; }
+/*ReAlign Price Box on List Page*/
+.products-list .price-box { margin-top: -10px; }
+
+/*Grid Pages Mapp Styling*/
+.products-grid .mapp-email-container { width: 85px; float: left; display: block; }
+.products-grid .mapp-email-container input { margin-top: 0.4em; height: 18px; width: 82px; }
+.products-grid .validation-advice { width: 145px; }
+/*ReAlign Price Box on Grid Page*/
+.products-grid .actions { bottom: 15px; }
+.products-grid .price-box { margin-bottom: 3px; }
+.products-grid .mappBox { margin-bottom: 5px; }

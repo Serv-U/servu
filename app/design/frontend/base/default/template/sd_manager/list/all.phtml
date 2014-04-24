@@ -1,0 +1,67 @@
+<?php
+        $columns = $this->getDataOr('columns', false);
+        
+	$_items = $this->getValuesCollection()->retrieveAll()->getItems();
+
+	$attribute_code = $this->getData('attribute_code');
+	$_helper = $this->helper('sd_manager/manufacturerInfo');
+
+?>
+<?php if (count($_items)):?>
+<div class="all-manufacturers-list">
+    <?php $i = 0; ?>
+    <ul class="manufacturers-grid">
+    <?php foreach ($_items as $item):?>
+        <li>
+    <?php
+	$_imgHtml   = '';
+  
+	if (($file = Mage::getBaseDir('media'). DS . 'catalog' . DS . 'manufacturers' . DS .$item->getLogo()) && is_file($file)) {
+        $imageInfo = getimagesize($file);
+        $width  = $imageInfo[0];
+        $height = $imageInfo[1];
+
+        $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
+
+	$thumbnail_width  = intval($width - ($width * 0.60));
+        $thumbnail_height = intval($height - ($height * 0.60));
+
+        //resizer looks in /media/catalog/product, our images are in /media/catalog/manufacturer
+        //so we go one level above product with the helper/
+        $_imgUrl = Mage::helper('sd_manager/image')
+        	->initImage($attribute_code, $item->getLogo())
+        	->resize($thumbnail_width, $thumbnail_height)
+        	->__toString();
+
+		$_imgHtml = '<img
+			width="'.($thumbnail_width ? $thumbnail_width : $width) .'"
+	        src="'.$_imgUrl.'"
+	        alt="'.$this->htmlEscape($item->getValue()).'"
+	        title="'.$this->htmlEscape($item->getValue()).'"
+	        class="attribute-values-logo" />';
+	}
+        
+        if($item->getUrlKey() != '') {
+            $urlKey = $item->getUrlKey();
+        } else {
+            $urlKey =  $item->getIdentifier();
+        }
+        
+	if ($_imgHtml) :?>
+            <a href="<?php echo $this->getUrl('/').$item->getAttributeCode().'/'.$urlKey; ?>"
+                title="<?php echo $item->getValue()?>">
+            <?php echo $_imgHtml;?></a>
+        <?php endif; ?>
+        <h2 class="manufacturer-name">
+            <a href="<?php echo $this->getUrl('/').$item->getAttributeCode().'/'.$urlKey; ?>"
+                title="<?php echo $this->htmlEscape($item->getName())?>">
+            <?php echo $item->getValue(); ?></a>
+        </h2>
+        </li>
+        <?php if (0 == (++$i % $columns)) : ?>
+            </ul><ul class="manufacturers-grid">
+        <?php endif; ?>
+    <?php endforeach; ?>
+        </ul>
+</div>
+<?php endif;?>

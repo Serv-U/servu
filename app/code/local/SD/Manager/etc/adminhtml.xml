@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>    
+    <menu>
+        <catalog>
+            <children>
+                <sd translate="title">
+                    <title><![CDATA[Manage Manufacturers]]></title>
+                    <sort_order>3</sort_order>
+                    <action>adminhtml/manufacturer</action> 
+                </sd>
+            </children>
+        </catalog>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <catalog>
+                        <children>
+                            <manufacturer translate='title'>
+                                <title><![CDATA[Manage Manufacturers]]></title>
+                                <sort_order>2</sort_order>
+                            </manufacturer>
+                        </children>
+                    </catalog>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

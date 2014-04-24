@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<layout version="0.0.1">
+    <adminhtml_files_index>
+        <update handle="editor" />
+        <reference name="content">
+            <block type="mediamanager/adminhtml_files" name="files" />
+        </reference>
+    </adminhtml_files_index>
+    <adminhtml_files_products>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="mediamanager/adminhtml_files_edit_tab_products" name="products.grid"/>
+            <block type="adminhtml/widget_grid_serializer" name="products_serializer">
+                <reference name="products_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>products.grid</grid_block_name>
+                        <data_callback>getSelectedProducts</data_callback>
+                        <hidden_input_name>links[products]</hidden_input_name>
+                        <reload_param_name>products</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>position</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </adminhtml_files_products>
+    <adminhtml_productfiles_index>
+        <block type="core/text_list" name="root" output="toHtml">
+           <block type="mediamanager/adminhtml_productfiles" name="productfiles" />
+           <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+               <reference name="grid_serializer">
+                   <action method="initSerializerBlock">
+                       <grid_block_name>productfiles.grid</grid_block_name>
+                       <data_callback>getSelectedProductfiles</data_callback>
+                       <hidden_input_name>links[productfiles]</hidden_input_name>
+                       <reload_param_name>productfiles</reload_param_name>
+                   </action>
+                   <action method="addColumnInputName">
+                       <input_name>position</input_name>
+                   </action>                   
+               </reference>
+           </block>
+       </block>
+    </adminhtml_productfiles_index>
+    <adminhtml_files_productsgrid>
+        <block type="core/text_list" name="root">
+            <block type="mediamanager/adminhtml_files_edit_tab_products" name="products.grid"/>
+        </block>
+    </adminhtml_files_productsgrid>
+    <adminhtml_productfiles_productfilesgrid>
+        <block type="core/text_list" name="root">
+            <block type="mediamanager/adminhtml_productfiles_grid" name="productfiles.grid"/>
+        </block>
+    </adminhtml_productfiles_productfilesgrid>
+</layout>

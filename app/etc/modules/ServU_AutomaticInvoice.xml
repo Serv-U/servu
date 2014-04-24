@@ -1,0 +1,9 @@
+<config>
+    <modules>
+        <ServU_AutomaticInvoice>
+            <active>false</active>
+            <codePool>local</codePool>
+            <version>0.0.1</version>
+        </ServU_AutomaticInvoice>
+    </modules>
+</config>

@@ -1,0 +1,61 @@
+<!--@subject Help out your fellow Serv-U customers, {{var order.customer_firstname}} @-->
+<!--@vars
+{"store url=\"\"":"Store Url",
+"var logo_url":"Email Logo Image Url",
+"var logo_alt":"Email Logo Image Alt",
+"htmlescape var=$order.getCustomerName()":"Customer Name",
+"var store.getFrontendName()":"Store Name",
+"store url=\"customer/account/\"":"Customer Account Url",
+"var invoice.increment_id":"Invoice Id",
+"var order.increment_id":"Order Id",
+"var order.billing_address.format('html')":"Billing Address",
+"var payment_html":"Payment Details",
+"var order.shipping_address.format('html')":"Shipping Address",
+"var order.shipping_description":"Shipping Description",
+"layout area=\"frontend\" handle=\"sales_email_order_invoice_items\" invoice=$invoice order=$order":"Invoice Items Grid",
+"var comment":"Invoice Comment"}
+@-->
+
+<!--@styles
+body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+@-->
+
+<body style="background:#F6F6F6; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0;">
+<div style="background:#F6F6F6; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0;">
+<table cellspacing="0" cellpadding="0" border="0" height="100%" width="100%">
+<tr>
+    <td align="center" valign="top" style="padding:20px 0 20px 0">
+        <!-- [ header starts here] -->
+        <table bgcolor="#FFFFFF" cellspacing="0" cellpadding="10" border="0" width="650" style="border:1px solid #E0E0E0;">
+            <tr>
+                <td valign="top"><a href="{{store url=''}}?bGytUhk={{var trackingCode}}"><img src="{{var logo_url}}" alt="{{var logo_alt}}" style="margin-bottom:10px;" border="0"/></a></td>
+            </tr>
+        <!-- [ middle starts here] -->
+            <tr>
+                <td valign="top">
+                    <h1 style="font-size:22px; font-weight:normal; line-height:22px; margin:0 0 11px 0;"">Hello, {{var order.customer_firstname}} {{var order.customer_lastname}}</h1>
+                    <p style="font-size:12px; line-height:16px; margin:0;">
+                        Thank you for your recent purchase with {{var store.getFrontendName()}}. It's been a couple of weeks since you placed your order with us and 
+                        we'd like to ask you to take a minute of your time and let us and other shoppers know what you think of our products. In exchange for your time, 
+                        we'll give you a $5.00 off coupon good for your next order over $100 from {{var store.getFrontendName()}}. If you would like to review a product, 
+                        just click the "review this product" button located next to the items from your purchase below and we'll send your coupon to you via email.
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h2 style="font-size:18px; font-weight:normal; margin:0;">Your Order:</h2>
+                </td>
+            </tr>
+            <tr>
+                <td>{{layout handle="reviewreminder_layout" products=$products trackingCode=$trackingCode area='frontend'}}</td>
+            </tr>
+            <tr>
+                <td bgcolor="#EAEAEA" align="center" style="background:#EAEAEA; text-align:center;"><center><p style="font-size:12px; margin:0;">Thank you again, <strong>{{var store.getFrontendName()}}</strong></strong></p></center></td>
+            </tr>
+        </table>
+    </td>
+</tr>
+</table>
+</div>
+</body>

@@ -1,0 +1,11 @@
+<?php $helper = $this->helper('catalog/category') ?>
+<?php if (count($this->getStoreCategories()) > 0) :?>
+<div class="footer-section">
+    <h5><?php echo __('Categories')?></h5>
+    <ul class="category_listing">
+    <?php foreach ($helper->getStoreCategories() as $_category): ?>
+    <li><a href="<?php echo Mage::getModel('catalog/category')->setData($_category->getData())->getUrl(); ?>" title="<?php echo $_category->getName() ?>"><?php echo $_category->getName() ?></a></li>
+    <?php endforeach ?>
+    </ul>
+</div>
+<?php endif; ?>

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <servu_tab translate="label">
+            <label>Serv-U</label>
+            <sort_order>500</sort_order>
+        </servu_tab>
+    </tabs>
+    <sections>
+        <clearance_migration_section translate="label">
+            <label>Clearance Management</label>
+            <tab>servu_tab</tab>
+            <sort_order>500</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>0</show_in_website>
+            <show_in_store>0</show_in_store>
+            <groups>
+                <settings_group translate="label">
+                    <label>Clearance Management Settings</label>
+                    <comment></comment>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <catalog_number_filter translate="label">
+                            <label>Catalog Numbers</label>
+                            <comment>All products that do not have these catalog numbers will be moved (excluding those products that do not have a book code). Comma delimited.(B64,WEB10,CLEARANCE11)</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </catalog_number_filter>
+                    </fields>
+                </settings_group>
+            </groups>
+        </clearance_migration_section>
+    </sections>
+</config>

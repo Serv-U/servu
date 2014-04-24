@@ -1,0 +1,9 @@
+<config>
+    <modules>
+        <ServU_Customer>
+            <active>true</active>
+            <codePool>local</codePool>
+            <version>0.0.1</version>
+        </ServU_Customer>
+    </modules>
+</config>

@@ -1,0 +1,61 @@
+<!--@subject Ready to complete your Serv-U order, {{var quote.customer_firstname}}? @-->
+<!--@vars
+{"store url=\"\"":"Store Url",
+"var logo_url":"Email Logo Image Url",
+"var logo_alt":"Email Logo Image Alt",
+"htmlescape var=$order.getCustomerName()":"Customer Name",
+"var store.getFrontendName()":"Store Name",
+"store url=\"customer/account/\"":"Customer Account Url",
+"var invoice.increment_id":"Invoice Id",
+"var order.increment_id":"Order Id",
+"var order.billing_address.format('html')":"Billing Address",
+"var payment_html":"Payment Details",
+"var order.shipping_address.format('html')":"Shipping Address",
+"var order.shipping_description":"Shipping Description",
+"layout area=\"frontend\" handle=\"sales_email_order_invoice_items\" invoice=$invoice order=$order":"Invoice Items Grid",
+"var comment":"Invoice Comment"}
+@-->
+
+<!--@styles
+body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+@-->
+
+<body style="background:#F6F6F6; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0;">
+<div style="background:#F6F6F6; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0;">
+<table cellspacing="0" cellpadding="0" border="0" height="100%" width="100%">
+<tr>
+    <td align="center" valign="top" style="padding:20px 0 20px 0">
+        <!-- [ header starts here] -->
+        <table bgcolor="#FFFFFF" cellspacing="0" cellpadding="10" border="0" width="650" style="border:1px solid #E0E0E0;">
+            <tr>
+                <td valign="top"><a href="{{store url="checkout/cart"}}"><img src="{{var logo_url}}" alt="{{var logo_alt}}" style="margin-bottom:10px;" border="0"/></a></td>
+            </tr>
+        <!-- [ middle starts here] -->
+            <tr>
+                <td valign="top">
+                    <h1 style="font-size:12px; line-height:19px; font-weight:normal; margin-bottom:10px">Hello {{var quote.customer_firstname}} {{var quote.customer_lastname}}, </h1>
+                    <p style="font-size:12px; line-height:19px; margin-bottom:10px">
+                        Are you ready to complete your order, we'd like to help! We noticed that you have products in your shopping cart, but did not complete your order. 
+                        To complete your order just login to your account at <a href="{{store url=""}}">www.servu-online.com</a> and select <a href="{{store url="checkout/cart"}}">proceed to checkout</a> from the shopping cart. 
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td>{{layout handle="acm_layout" products=$products area='frontend'}}</td>
+            </tr>
+            <tr>
+                <td><p style="font-size:12px; line-height:19px; margin-bottom:10px">If you had any problems using our site or completing your order, or have any other concerns, please let us know by
+                        phone ({{config path='general/store_information/phone'}}) or e-mail 
+                        <a href="mailto:{{config path='trans_email/ident_support/email'}}">{{config path='trans_email/ident_support/email'}}</a>. Our sales staff has in-depth product training and real 
+                        world restaurant industry experience and would love to earn your business.</p>
+                    <p style="font-size:12px; line-height:19px; margin-bottom:10px">Thank you again,</p>
+                    <p style="font-size:12px; line-height:19px;"><a href="{{store url="checkout/cart"}}">{{var store.getFrontendName()}}</a></p>
+                    <p style="margin-top:45px;text-align:center">Don't wish to receive shopping cart status reminders? <a href="{{store url="newsletter/manage"}}">Unsubscribe</a></p>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+</table>
+</div>
+</body>

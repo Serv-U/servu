@@ -1,0 +1,10 @@
+<layout version="0.1.0">
+    <adminhtml_sales_order_view>
+        <reference name="order_tab_info">
+            <action method="setTemplate">
+                <template>servu_shipping/sales/order/view/tab/info.phtml</template>
+            </action>
+        </reference> 
+    </adminhtml_sales_order_view>
+</layout>
+

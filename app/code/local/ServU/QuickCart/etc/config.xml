@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <ServU_QuickCart>
+            <version>0.0.1</version>
+        </ServU_QuickCart>
+    </modules>
+    <frontend>
+       <routers>
+          <quickcart>
+              <use>standard</use>
+              <args>
+                 <module>ServU_QuickCart</module>
+                 <frontName>quickcart</frontName>
+              </args>
+           </quickcart>
+       </routers>
+    </frontend>
+    <global>
+        <models>
+            <quickcart>
+                <class>ServU_QuickCart_Model</class>
+            </quickcart>
+        </models>
+        <helpers>
+            <quickcart>
+                <class>ServU_QuickCart_Helper</class>
+            </quickcart>
+        </helpers>        
+    </global>    
+</config>

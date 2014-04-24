@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <sd_advancedattributes_manage_filters_index>
+        <update handle="editor" />
+        <reference name="content">
+            <block type="advancedattributes/manage_filters" name="filters" />
+        </reference>
+    </sd_advancedattributes_manage_filters_index>
+    <sd_advancedattributes_manage_configurables_index>
+        <update handle="editor" />
+        <reference name="content">
+            <block type="advancedattributes/manage_configurables" name="configurables" />
+        </reference>
+    </sd_advancedattributes_manage_configurables_index>
+    <sd_advancedattributes_manage_filters_options>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="advancedattributes/manage_filters_edit_tab_options" name="options.grid"/>
+            <block type="adminhtml/widget_grid_serializer" name="options_serializer">
+                <reference name="options_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>options.grid</grid_block_name>
+                        <data_callback>getSelectedOptions</data_callback>
+                        <hidden_input_name>links[options]</hidden_input_name>
+                        <reload_param_name>options</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>option_id</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </sd_advancedattributes_manage_filters_options>
+    <sd_advancedattributes_manage_filters_optionsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="advancedattributes/manage_filters_edit_tab_options" name="options.grid"/>
+        </block>
+    </sd_advancedattributes_manage_filters_optionsgrid>
+    <sd_advancedattributes_manage_filters_edit>
+        <update handle="editor" />
+    </sd_advancedattributes_manage_filters_edit>
+</layout>

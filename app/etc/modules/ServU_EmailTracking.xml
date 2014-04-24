@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <ServU_EmailTracking>
+            <active>true</active>
+            <codePool>local</codePool>
+        </ServU_EmailTracking>
+    </modules>
+</config>

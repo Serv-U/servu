@@ -1,0 +1,5 @@
+/* Advanced Filters Styling ============================================================== */
+.img-advancedattributes-tooltip {cursor:help}
+#tooltip {position: absolute; z-index: 3000; border: 1px solid #000; background-color:#EAE7E2;padding: 5px; width:150px; text-align:left; font-size:11px}
+#tooltip h3 {font-size: 11px; font-weight:normal; margin:0px;}
+/* ======================================================================================= */

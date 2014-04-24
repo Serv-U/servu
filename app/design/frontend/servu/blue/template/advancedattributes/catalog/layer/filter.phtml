@@ -1,0 +1,147 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php $displaySize = $this->getUnfoldedOptions()?>
+<?php switch ($this->getDisplayType()) : ?>
+<?php   case 1: /*Labels*/ ?>
+            <ol>
+            <?php $i = -1 ?>
+            <?php foreach ($this->getItems() as $_item): ?>
+                <?php $i++ ?>
+                <?php if ($displaySize == $i && $displaySize != 0): ?>
+                <div class="extraOptions">
+                <?php endif; ?>
+                <li>
+                    <?php if ($_item->getCount() > 0): ?>
+                    <a href="<?php echo $this->urlEscape($_item->getUrl()) ?>"><?php echo $_item->getLabel() ?></a>
+                    <?php else: echo $_item->getLabel() ?>
+                    <?php endif; ?>
+                    <?php if ($this->shouldDisplayProductCount()): ?>
+                    (<?php echo $_item->getCount() ?>)
+                    <?php endif; ?>
+                </li>
+            <?php endforeach ?>
+            
+            <?php if ($displaySize <= $i && $displaySize != 0): ?>
+                </div>
+            <div>
+                <a class="extraOptions-toggle" href="#">More Options...</a>
+            </div>
+            <?php endif; ?>
+            </ol>
+<?php       break;
+    case 2: /*Images*/?>
+            <ol>
+            <?php $i = -1 ?>
+<?php       foreach ($this->getItems() as $_item): ?>
+                <?php $i++ ?>
+                <?php if ($displaySize == $i && $displaySize != 0): ?>
+                <div class="extraOptions">
+                <?php endif; ?>
+                <li>
+                <?php if ($_item->getCount() > 0): ?>
+                    <?php if ($_item->getImage() != ''):?>
+                    <?php $image = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'catalog/attributes/layered/'.$_item->getImage()?>
+                    <?php $imageInfo = getimagesize($image) ?>
+                    <?php $width  = $imageInfo[0]; ?>
+                    <?php $height = $imageInfo[1]; ?>
+                    <a href="<?php echo $this->urlEscape($_item->getUrl()) ?>"><img src="<?php echo $image ?>" width="<?php echo $width ?>" height="<?php echo $height ?>" title="<?php echo $_item->getLabel() ?>" alt="<?php echo $_item->getLabel() ?>"/></a>
+                    <?php else:?>
+                    <a href="<?php echo $this->urlEscape($_item->getUrl()) ?>"><?php echo $_item->getLabel() ?></a>
+                    <?php endif; ?>
+                <?php else: echo $_item->getLabel() ?>
+                <?php endif; ?>
+                <?php if ($this->shouldDisplayProductCount()): ?>
+                (<?php echo $_item->getCount() ?>)
+                <?php endif; ?>
+                <li>
+ <?php      endforeach; ?>
+            <?php if ($displaySize <= $i && $displaySize != 0): ?>
+                </div>
+            <div>
+                <a class="extraOptions-toggle" href="#">More Options...</a>
+            </div>
+            <?php endif; ?>
+            </ol>
+            
+ <?php      break;
+       case 3: /*Images and Labels*/?>
+            <ol>
+            <?php $i = -1 ?>
+<?php       foreach ($this->getItems() as $_item): ?>
+                <?php $i++ ?>
+                <?php if ($displaySize == $i && $displaySize != 0): ?>
+                <div class="extraOptions">
+                <?php endif; ?>
+                <li>
+                <?php if ($_item->getCount() > 0): ?>
+                    <?php $image = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'/catalog/attributes/layered/'.$_item->getImage()?>
+                    <?php $imageInfo = getimagesize($image) ?>
+                    <?php $width  = $imageInfo[0]; ?>
+                    <?php $height = $imageInfo[1]; ?>
+                    <a href="<?php echo $this->urlEscape($_item->getUrl()) ?>"><img src="<?php echo $image ?>" width="<?php echo $width ?>" height="<?php echo $height ?>" title="<?php echo $_item->getLabel() ?>" alt="<?php echo $_item->getLabel() ?>"/></a>
+                    <a href="<?php echo $this->urlEscape($_item->getUrl()) ?>"><?php echo $_item->getLabel() ?></a>
+                <?php else: echo $_item->getLabel() ?>
+                <?php endif; ?>
+                <?php if ($this->shouldDisplayProductCount()): ?>
+                (<?php echo $_item->getCount() ?>)
+                <?php endif; ?>
+                <li>
+<?php       endforeach; ?>
+            </ol>
+<?php       break;
+        default: /* Checkbox */ ?>
+            <ul>
+            <?php $i = -1 ?>
+<?php       foreach ($this->getItems() as $_item): ?>
+                <?php $i++ ?>
+                <li>
+                    <input type="checkbox" value="<?php echo $_item->getFilter()->getRequestVar().'[]='.htmlentities($_item->getValue())?>">
+                    <label>
+                        <a href="<?php echo $this->urlEscape($_item->getUrl()) ?>"><?php echo $_item->getLabel() ?></a>
+                    </label>
+                </li>
+<?php       endforeach; ?>
+            </ul>
+<?php       break;?>
+<?php
+        default: /*Default, put here what you want to show up when there is nothing specified. At the moment this cascades to dropdown*/?>
+            <!--<select onchange="setLocation(this.value)">-->
+                <select class="sd-advanced-dropdown-filter">
+                <option value=""><?php echo 'Choose an Option...' ?></option>
+            <?php foreach ($this->getItems() as $_item): ?>
+                <option
+                    <?php if ($_item->getCount() > 0): ?>
+                    value="<?php echo $_item->getFilter()->getRequestVar().'[]='.htmlentities($_item->getValue())?>"><?php echo $_item->getLabel() ?>
+                    <?php else: echo '>' . $_item->getLabel() ?>
+                    <?php endif; ?>
+                    (<?php echo $_item->getCount() ?>)
+                </option>
+            <?php endforeach ?>
+            </select>
+<?php       break; ?>
+<?php endswitch ?>
+

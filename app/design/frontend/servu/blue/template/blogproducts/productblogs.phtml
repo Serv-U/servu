@@ -1,0 +1,12 @@
+<ul style="border-bottom: none;">
+    <?php if($blogs = $this->getBlogs()): ?>
+        <?php foreach($blogs as $blog):?>
+            <li class="blog">
+                <a href="<?php echo $blog->getData('url'); ?>" title="<?php echo $blog->getData('title'); ?>" target="_blank">
+                    <?php //echo $blog->getData('date'); ?> 
+                    Blog - <?php echo $blog->getData('title'); ?>
+                </a>
+            </li>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</ul>

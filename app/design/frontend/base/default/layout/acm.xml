@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <!-- goes in local -->
+    <acm_layout>
+        <block type='core/template' name='mailer' template='acm/acm.phtml' />
+    </acm_layout>
+    
+</layout>

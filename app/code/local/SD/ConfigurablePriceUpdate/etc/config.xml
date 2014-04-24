@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<config>
+    <modules>
+        <SD_ConfigurablePriceUpdate>
+            <version>0.0.3</version>
+	</SD_ConfigurablePriceUpdate>
+    </modules>
+    <global>
+        <models>
+            <sd_configurablePriceUpdate>
+                <class>SD_ConfigurablePriceUpdate_Model</class>
+            </sd_configurablePriceUpdate>
+        </models>
+    </global>
+    <crontab>
+        <jobs>
+            <sd_configurablepriceupdate>
+                <schedule>
+                    <!--Run job at 3am, uncomment the next line to do so-->
+                    <!--<cron_expr>10,40 * * * *</cron_expr>-->
+                </schedule>
+                <run>
+                    <model>sd_configurablePriceUpdate/configurablePriceUpdate::update</model>
+                </run>
+            </sd_configurablepriceupdate>
+        </jobs>
+    </crontab>  
+</config>

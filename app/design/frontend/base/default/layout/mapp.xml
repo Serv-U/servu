@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+	     <reference name="head">
+            <action method="addCss"><link>css/mapp.css</link></action>
+        </reference>
+    </default>
+</layout> 

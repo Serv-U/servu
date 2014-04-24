@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Inchoo_Productfilter>
+            <version>1.0.1</version>
+        </Inchoo_Productfilter>
+    </modules>
+    <global>
+        <models>
+            <inchoo_product_filter>
+                <class>Inchoo_Productfilter_Model</class>
+            </inchoo_product_filter>
+        </models>
+        <helpers>
+            <inchoo_product_filter>
+                <class>Inchoo_Productfilter_Helper</class>
+            </inchoo_product_filter>
+        </helpers>
+        <blocks>
+            <inchoo_product_filter>
+                <class>Inchoo_Productfilter_Block</class>
+            </inchoo_product_filter>
+            <adminhtml>
+                <rewrite>
+                    <catalog_product_grid>Inchoo_Productfilter_Block_Grid</catalog_product_grid>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <inchoo_productfilter before="Mage_Adminhtml">Inchoo_Productfilter</inchoo_productfilter>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+</config>

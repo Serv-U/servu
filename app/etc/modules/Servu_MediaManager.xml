@@ -1,0 +1,9 @@
+<config>
+    <modules>
+        <ServU_MediaManager>
+            <active>true</active>
+            <codePool>local</codePool>
+            <version>0.0.5</version>
+        </ServU_MediaManager>
+    </modules>
+</config>

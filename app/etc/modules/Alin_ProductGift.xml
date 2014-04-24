@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Alin_ProductGift>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                
+            </depends>
+        </Alin_ProductGift>
+    </modules>
+</config>

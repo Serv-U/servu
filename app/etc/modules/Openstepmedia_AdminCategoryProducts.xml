@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Openstepmedia_AdminCategoryProducts>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Openstepmedia_AdminCategoryProducts>
+    </modules>
+</config>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <ServU_Crosssell>
+            <version>1.0</version>
+        </ServU_Crosssell>
+    </modules>
+    <global>
+        <blocks>
+            <checkout>
+                <rewrite>
+                    <cart_crosssell>ServU_Crosssell_Block_Checkout_Cart_Crosssell</cart_crosssell>
+                </rewrite>
+            </checkout>
+        </blocks>
+    </global> 
+</config>
+

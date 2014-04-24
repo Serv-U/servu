@@ -1,0 +1,12 @@
+<config>
+    <modules>
+        <ServU_Checkout>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Checkout />
+            </depends>
+            <version>0.1.0</version>
+        </ServU_Checkout>
+    </modules>
+</config>

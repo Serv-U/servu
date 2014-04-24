@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addJs"><script>quickcart/QuickCart.js</script></action>
+            <action method="addItem"><type>skin_js</type><name>js/noConflict.js</name></action>
+        </reference>
+        <reference name="header">
+            <reference name="top.links">
+                <!--<action method="addLink" translate="label title" module="cms"><label>Catalog Request</label><url>catalogrequest</url><title>Catalog Request</title><prepare>true</prepare><urlParams/><position>1</position></action>-->
+            </reference>
+        </reference>
+        <reference name="left">
+            <remove name="tags_popular"/>
+            <remove name="sale.reorder.sidebar" />
+            <remove name="wishlist_sidebar"/>
+            <block type="cms/block" name="livezilla.chat" before="-">
+                    <action method="setBlockId"><block_id>servu_livezilla_chat</block_id></action>
+            </block>
+            <block type="core/template" name="product.quickcart" as="quickcart" template="quickcart/form.phtml" after="-"/>
+        </reference>
+        <reference name="footer">
+            <action method="unsetChild"><name>footer_links</name></action>
+            <block type="cms/block" name="external.badges">
+                    <action method="setBlockId"><block_id>servu_external_badges</block_id></action>
+            </block>
+            <block type="page/template_links" name="footer_links" before="-" template="page/template/links.phtml">
+                <action method="addLink" translate="label title" module="cms"><label>Site Map</label><url>catalog/seo_sitemap/category</url><title>Site Map</title><prepare>true</prepare><urlParams/><position>0</position></action>
+                <action method="addLink" translate="label title" module="cms"><label>Search Terms</label><url>catalogsearch/term/popular</url><title>Search Terms</title><prepare>true</prepare><urlParams/><position>0</position></action>
+                <action method="addLink" translate="label title" module="cms"><label>Advanced Search</label><url>catalogsearch/advanced</url><title>Advanced Search</title><prepare>true</prepare><urlParams/><position>0</position></action>
+                <action method="addLink" translate="label title" module="cms"><label>Catalog Request</label><url>catalogrequest</url><title>Catalog Request</title><prepare>true</prepare><urlParams/><position>0</position></action>
+                <action method="addLink" translate="label title" module="cms"><label>Contact Us</label><url>contacts/</url><title>Contact Us</title><prepare>true</prepare><urlParams/><position>0</position></action>
+            </block>
+            <block type="cms/block" name="social.media">
+                    <action method="setBlockId"><block_id>servu_social_media_block</block_id></action>
+            </block>
+            <block type="cms/block" name="guides.services.collections">
+                    <action method="setBlockId"><block_id>servu_guides_services_collections</block_id></action>
+            </block>
+        </reference>
+        <reference name="content">
+            <block type="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs" before="-"/>
+        </reference>
+    </default>
+
+<!--
+    <customer_logged_in>
+        <reference name="footer">
+            <block type="cms/block" name="footer_login">
+                <action method="setBlockId"><id>footer_login</id></action>
+            </block>
+        </reference>
+    </customer_logged_in>
+-->
+
+    <catalog_product_view>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/jquery.jcarousel.min.js</name></action>
+            <action method="addJs"><script>jquery/jquery.tooltip.min.js</script></action>
+        </reference>
+        <reference name="left">
+            <remove name="catalog.product.related"/>
+        </reference>        
+        <reference name="content">
+            <reference name="product.info">
+                <reference name="product.info.options.wrapper.bottom">
+                    <remove name="product.clone_prices"/>
+                </reference>
+                <!--<block type="advancedattributes/swatch" name="advancedattributes.swatches" template="advancedattributes/swatches.phtml" />-->
+                <block type="catalog/product_list_related" name="catalog.product.related.servu" before="-" template="catalog/product/list/related.phtml"/>
+                <block type="mapp/form" name="zflowmapp_form" before="-" template="zflowmapp/zflowmapp_form.phtml"/>
+                <!-- Removed for Map changes block type="tag/product_list" name="product_tag_list" template="tag/list.phtml">
+                    <block type="page/html_wrapper" name="product.tag.list.list.before" as="list_before" translate="label">
+                        <label>Tags List Before</label>
+                        <action method="setMayBeInvisible"><value>1</value></action>
+                    </block>
+                </block-->
+                <block type="sd_manager/product_manufacturer" name="manager.manufacturer.text" as="manager.manufacturer.text" template="sd_manager/product/view/attribute.phtml">
+                    <action method="setAttributeCode"><value>manufacturer</value></action>
+                    <action method="setImageOnly"><value>0</value></action> 
+                    <action method="setTextOnly"><value>1</value></action> 
+                </block>
+                <reference name="product.info.tabs">
+                    <reference name="media">
+                        <block type="blogproducts/productBlogs" name="productblogs" template="blogproducts/productblogs.phtml" />
+                    </reference>
+                    <action method="addTab" translate="title" module="catalog"><alias>swatches</alias><title>Swatches</title><block>advancedattributes/swatch</block><template>advancedattributes/swatches.phtml</template></action>
+                </reference>
+            </reference>  
+        </reference>
+    </catalog_product_view> 
+    
+    <PRODUCT_TYPE_configurable translate="label" module="catalog">
+        <reference name="product.info">
+            <remove name="swatches" />
+        </reference>
+    </PRODUCT_TYPE_configurable>
+
+    <catalog_category_default>
+        <reference name="product_list">
+            <action method="addAttribute"><attribute>manufacturer</attribute></action>
+        </reference>
+        <reference name="left">
+            <action method="unsetChild"><name>catalog.leftnav</name></action>
+        </reference>
+    </catalog_category_default>
+    
+    <cms_index_index>
+        <reference name="header">
+            <block type="cms/block" name="servu_rotator" after="-">
+                    <action method="setBlockId"><block_id>servu_rotator</block_id></action>
+            </block>
+        </reference> 
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/rotator.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/jquery.jcarousel.min.js</name></action>
+        </reference>
+        <reference name="left">
+            <action method="unsetChild"><name>livezilla.chat</name></action>
+            <block type="cms/block" name="home.livezilla.chat" before="-">
+                    <action method="setBlockId"><block_id>servu_home_livezilla_chat</block_id></action>
+            </block>
+        </reference>
+    </cms_index_index>
+
+    <customer_account_login translate="label">
+        <reference name="head">
+            <block type="core/template" name="optional_zip_countries" as="optional_zip_countries" template="directory/js/optional_zip_countries.phtml" />
+        </reference>
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+            <reference name="breadcrumbs">
+                <action method="addCrumb">
+                    <crumbName>Home</crumbName>
+                    <crumbInfo><label>Home</label><title>Home</title><link>/</link></crumbInfo>
+                </action>
+                <action method="addCrumb">
+                    <crumbName>Login</crumbName>
+                    <crumbInfo><label>Login</label><title>Login</title></crumbInfo>
+                </action>
+            </reference> 
+        </reference>
+        <reference name="content">
+            <block type="customer/form_register" name="customer_create_form_register" template="customer/form/register.phtml">
+                <block type="core/text_list" name="form.additional.info">
+                    <block type="captcha/captcha" name="captcha_create_customer">
+                        <reference name="head">
+                            <action method="addJs"><file>mage/captcha.js</file></action>
+                        </reference>
+                        <action method="setFormId"><formId>user_create</formId></action>
+                        <action method="setImgWidth"><width>230</width></action>
+                        <action method="setImgHeight"><width>50</width></action>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </customer_account_login>
+    
+    <customer_account_create translate="label">
+        <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Home</label><title>Home</title><link>/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>Create Account</crumbName>
+                <crumbInfo><label>Create Account</label><title>Create Account</title></crumbInfo>
+            </action>
+        </reference>
+    </customer_account_create>
+    
+    <customer_account_forgotpassword translate="label">
+        <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Home</label><title>Home</title><link>/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>Forgotten Password</crumbName>
+                <crumbInfo><label>Forgotten Password</label><title>Forgotten Password</title></crumbInfo>
+            </action>
+        </reference>
+    </customer_account_forgotpassword>
+     
+    <customer_account_resetpassword>
+        <reference name="root">
+            <reference name="breadcrumbs">
+                <action method="addCrumb">
+                    <crumbName>Home</crumbName>
+                    <crumbInfo><label>Home</label><title>Home</title><link>/</link></crumbInfo>
+                </action>
+                <action method="addCrumb">
+                    <crumbName>Reset Password</crumbName>
+                    <crumbInfo><label>Reset Password</label><title>Reset Password</title></crumbInfo>
+                </action>
+            </reference>
+        </reference>
+    </customer_account_resetpassword>
+     
+    <customer_account_edit>
+         <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Home</label><title>Home</title><link>/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>Account Dashboard</crumbName>
+                <crumbInfo><label>Account Dashboard</label><title>Account Dashboard</title><link>/customer/account</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>Account Information</crumbName>
+                <crumbInfo><label>Account Information</label><title>Account Information</title></crumbInfo>
+            </action>
+        </reference>
+        <reference name="left">
+            <action method="unsetChild"><alias>catalog.compare.sidebar</alias></action>
+            <block type="catalog/product_compare_sidebar" after="customer_account_navigation" name="catalog.compare.sidebar" template="catalog/product/compare/sidebar.phtml"/>
+        </reference>        
+    </customer_account_edit>
+
+    <customer_account_index>
+        <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Home</label><title>Home</title><link>/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>Account Dashboard</crumbName>
+                <crumbInfo><label>Account Dashboard</label><title>Account Dashboard</title></crumbInfo>
+            </action>
+        </reference>
+        <reference name="left">
+            <action method="unsetChild"><alias>catalog.compare.sidebar</alias></action>
+            <block type="catalog/product_compare_sidebar" after="customer_account_navigation" name="catalog.compare.sidebar" template="catalog/product/compare/sidebar.phtml"/>
+        </reference>
+        <reference name="customer_account_dashboard">
+            <remove name="customer_account_dashboard_info2" />
+            <remove name="customer_account_dashboard_info1" />
+        </reference>
+    </customer_account_index>
+     
+     <customer_address_index>
+         <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Home</label><title>Home</title><link>/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>Account Dashboard</crumbName>
+                <crumbInfo><label>Account Dashboard</label><title>Account Dashboard</title><link>/customer/account</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>Address Book</crumbName>
+                <crumbInfo><label>Address Book</label><title>Address Book</title></crumbInfo>
+            </action>
+        </reference>
+     </customer_address_index>
+     
+     <customer_address_form>
+        <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Home</label><title>Home</title><link>/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>Account Dashboard</crumbName>
+                <crumbInfo><label>Account Dashboard</label><title>Account Dashboard</title><link>/customer/account/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>Address Book</crumbName>
+                <crumbInfo><label>Address Book</label><title>Address Book</title><link>/customer/address/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>Edit Address</crumbName>
+                <crumbInfo><label>Edit Address</label><title>Edit Address</title></crumbInfo>
+            </action>
+        </reference>
+    </customer_address_form>
+
+    <sales_order_view translate="label">
+        <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Home</label><title>Home</title><link>/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>Account Dashboard</crumbName>
+                <crumbInfo><label>Account Dashboard</label><title>Account Dashboard</title><link>/customer/account/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>My Orders</crumbName>
+                <crumbInfo><label>My Orders</label><title>My Orders</title><link>/sales/order/history/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>Order Information</crumbName>
+                <crumbInfo><label>Order Information</label><title>Order Information</title></crumbInfo>
+            </action>
+        </reference>
+    </sales_order_view>
+
+    <sales_order_invoice translate="label">
+        <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Home</label><title>Home</title><link>/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>Account Dashboard</crumbName>
+                <crumbInfo><label>Account Dashboard</label><title>Account Dashboard</title><link>/customer/account/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>My Orders</crumbName>
+                <crumbInfo><label>My Orders</label><title>My Orders</title><link>/sales/order/history/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>Order Information</crumbName>
+                <crumbInfo><label>Order Information</label><title>Order Information</title></crumbInfo>
+            </action>
+        </reference>
+    </sales_order_invoice>
+
+    <sales_order_shipment translate="label">
+        <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Home</label><title>Home</title><link>/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>Account Dashboard</crumbName>
+                <crumbInfo><label>Account Dashboard</label><title>Account Dashboard</title><link>/customer/account/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>My Orders</crumbName>
+                <crumbInfo><label>My Orders</label><title>My Orders</title><link>/sales/order/history/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>Order Information</crumbName>
+                <crumbInfo><label>Order Information</label><title>Order Information</title></crumbInfo>
+            </action>
+        </reference>
+    </sales_order_shipment>
+    
+    <sales_order_history translate="label">
+        <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Home</label><title>Home</title><link>/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>Account Dashboard</crumbName>
+                <crumbInfo><label>Account Dashboard</label><title>Account Dashboard</title><link>/customer/account/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>My Orders</crumbName>
+                <crumbInfo><label>My Orders</label><title>My Orders</title></crumbInfo>
+            </action>
+        </reference>
+    </sales_order_history>
+
+    <review_customer_index translate="label">
+        <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Home</label><title>Home</title><link>/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>Account Dashboard</crumbName>
+                <crumbInfo><label>Account Dashboard</label><title>Account Dashboard</title><link>/customer/account/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>My Product Reviews</crumbName>
+                <crumbInfo><label>My Product Reviews</label><title>My Product Reviews</title></crumbInfo>
+            </action>
+        </reference>
+    </review_customer_index>
+    
+    <wishlist_index_index translate="label">
+        <reference name="customer.wishlist.item.info">
+            <action method="setTitle" translate="title">
+                <title>Product Name</title>
+            </action>
+        </reference>
+        <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Home</label><title>Home</title><link>/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>Wishlist</crumbName>
+                <crumbInfo><label>Wishlist</label><title>Wishlist</title></crumbInfo>
+            </action>
+        </reference>
+    </wishlist_index_index>
+
+    <newsletter_manage_index translate="label">
+        <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Home</label><title>Home</title><link>/</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>Newsletters</crumbName>
+                <crumbInfo><label>Newsletters</label><title>Newsletters</title></crumbInfo>
+            </action>
+        </reference>
+    </newsletter_manage_index>
+
+     <checkout_onepage_index>
+        <reference name="head">
+            <reference name="head">
+                <action method="removeItem"><type>js</type><name>jquery/jquery-min.js</name><params /></action>
+                <action method="removeItem"><type>skin_js</type><name>js/noConflict.js</name><params /></action>
+                <action method="removeItem"><type>js</type><name>quickcart/QuickCart.js</name></action>
+            </reference>
+        </reference>         
+        <reference name="left">
+            <block type="cms/block" name="livezilla.chat.onepage" before="checkout.progress.wrapper">
+                <action method="setBlockId"><block_id>servu_livezilla_chat</block_id></action>
+            </block>
+        </reference>
+     </checkout_onepage_index>
+    
+    <checkout_cart_index translate="label">
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/jquery.jcarousel.min.js</name></action>
+            <action method="removeItem"><type>js</type><name>quickcart/QuickCart.js</name></action>
+        </reference>
+        <reference name="left">
+            <remove name="cart_sidebar" />
+            <remove name="product.quickcart" />
+        </reference>
+        <reference name="checkout.cart">
+            <block type="checkout/cart_crosssell" name="checkout.cart.crosssell" as="crosssell" template="checkout/cart/crosssell.phtml">
+                <action method="setItemLimit"><type>crosssell</type><limit>20</limit></action>
+            </block> 
+        </reference>
+    </checkout_cart_index>
+
+    <catalog_category_layered translate="label">
+        <reference name="content">
+            <action method="unsetChild"><alias>breadcrumbs</alias></action>
+        </reference>
+    </catalog_category_layered>
+
+    <catalogsearch_result_index>
+        <reference name="left">
+            <action method="unsetChild"><alias>catalog.compare.sidebar</alias></action>
+            <block type="catalog/product_compare_sidebar" after="advancedattributes.catalogsearch.leftnav" name="catalog.compare.sidebar" template="catalog/product/compare/sidebar.phtml"/>
+        </reference>
+    </catalogsearch_result_index>
+    
+    <sd_manager_manufacturerinfo>
+        <reference name="left">
+            <remove name="breadcrumbs"/>
+        </reference>
+    </sd_manager_manufacturerinfo>
+    
+    <sd_manager_manufacturerinfo_all>
+        <reference name="left">
+            <remove name="breadcrumbs"/>
+        </reference>
+    </sd_manager_manufacturerinfo_all>
+    
+    <blog_index_list>
+        <reference name="top.bar">
+            <action method="unsetChild"><alias>breadcrumbs</alias></action>
+        </reference>
+    </blog_index_list> 
+    
+    <blog_index_index>
+        <reference name="top.bar">
+            <action method="unsetChild"><alias>breadcrumbs</alias></action>
+        </reference>
+    </blog_index_index>
+    
+    <blog_post_view>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/jquery.jcarousel.min.js</name></action>
+        </reference>
+        <reference name="top.bar">
+            <action method="unsetChild"><alias>breadcrumbs</alias></action>
+        </reference>
+        <reference name="content">
+            <reference name="post">
+                <block type="blogproducts/blogProducts" name="blogproducts" template="blogproducts/products.phtml"/>
+                <block type="blogproducts/blogBanners" name="blogbanner" template="blogproducts/banner.phtml"/>
+            </reference>
+        </reference>
+    </blog_post_view>
+    
+    <blog_cat_view>
+        <reference name="top.bar">
+            <action method="unsetChild"><alias>breadcrumbs</alias></action>
+        </reference>
+    </blog_cat_view>
+</layout>

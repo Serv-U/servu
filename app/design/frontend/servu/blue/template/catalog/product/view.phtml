@@ -1,0 +1,227 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     default_modern
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product view template
+ *
+ * @see Mage_Catalog_Block_Product_View
+ * @see Mage_Review_Block_Product_View
+ */
+?>
+<?php $_helper = $this->helper('catalog/output'); ?>
+<?php $_product = $this->getProduct(); ?>
+<script type="text/javascript">
+    var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+</script>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="product-view" itemscope itemtype="http://schema.org/Product">
+    <div class="product-essential">
+    <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+        <?php echo $this->getBlockHtml('formkey'); ?>
+        <div class="no-display">
+            <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+            <input type="hidden" name="related_product" id="related-products-field" value="" />
+        </div>
+
+        <div class="product-shop">
+            <div class="product-name">
+                <h1 itemprop="name"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+            </div>
+            <?php echo $this->getChildHtml('manager.manufacturer.text'); ?>
+            <?php if ($_product->getData('manufacturer_sku')) :?>
+            <div class="product-shop-info manufacturer-part-no"><span class="attribute-label"><?php echo $this->__('Manufacturer Part No:') ?></span> <span class="attribute-value" itemprop="mpn"><?php echo $_product->getData('manufacturer_sku') ?></span></div>
+            <?php endif ?>
+            <div class="product-shop-info sku"><span class="attribute-label"><?php echo $this->__('SKU:') ?></span> <span class="attribute-value" itemprop="sku"><?php echo $_product->getData('sku') ?></span></div>
+            <br/>
+            <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
+            <?php echo $this->getChildHtml('product_tag_list') ?>
+            <?php echo $this->getChildHtml('alert_urls') ?>
+            <?php echo $this->getChildHtml('product_type_data') ?>
+
+            <?php /******1 MAPP CODE ADDED HERE********/ ?>
+                <?php echo $this->getChildHtml('zflowmapp_form') ?>
+            <?php /******END MAPP CODE ADDED HERE********/ ?>
+            
+            <?php echo $this->getTierPriceHtml() ?>
+            <?php echo $this->getChildHtml('extrahint') ?>
+
+            <?php if (!$this->hasOptions()):?>
+                <div class="add-to-box">
+                    <?php if($_product->isSaleable()): ?>
+                        <?php /******1.1 MAPP CODE ADDED HERE********/ ?>
+                            <?php $mapp_cart=$_product->getAttributeText('cart_apply_mapp');?>
+                            <?php if($mapp_cart == 'Yes'):?>
+                                <p class="mappcart-text-view">Please add item to cart to view price</p>
+                            <?php endif;?>
+                        <?php /******END MAPP CODE ADDED HERE********/ ?>
+                        <?php echo $this->getChildHtml('addtocart') ?>
+                        <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
+                            <span class="or"><?php echo $this->__('OR') ?></span>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                    <?php echo $this->getChildHtml('addto') ?>
+                </div>
+            <?php endif; ?>
+            
+            <?php //if ($_product->getShortDescription()):?>
+                <!--<div class="short-description">
+                    <h2><?php //echo $this->__('Quick Overview') ?></h2>
+                    <div class="std"><?php //echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
+                </div>-->
+            <?php //endif;?>
+
+            <?php echo $this->getChildHtml('other');?>
+            <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+                <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+            <?php endif;?>
+            <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+                <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
+            <?php endif;?>
+            <div class="product-share">
+                <a href="http://pinterest.com/pin/create/button/?url=<?php echo $this->helper('core/url')->getCurrentUrl(); ?>&amp;media=<?php echo Mage::getModel('catalog/product_media_config')->getMediaUrl( $_product->getImage() ); ?>&amp;description=<?php echo urlencode($_product->getName()." $".number_format($_product->getPrice(),2)); ?>" class="pin-it-button" count-layout="none" target="_blank"><img src="<?php echo ($this->getSkinUrl('images/sprite_foreground.png')); ?>" alt="<?php echo $this->__('Share on Pinterest'); ?>" height="17" width="16" title="<?php echo $this->__('Share on Pinterest'); ?>" class="product-pinterest pinterest-sprite" /></a>
+                <a href="http://www.facebook.com/dialog/feed?app_id=182054778592670&amp;link=<?php echo $this->helper('core/url')->getCurrentUrl(); ?>&amp;picture=<?php echo Mage::getModel('catalog/product_media_config')->getMediaUrl( $_product->getImage() ); ?>&amp;name=<?php echo urlencode($_helper->productAttribute($_product, $_product->getName(), 'name')." $".number_format($_product->getPrice(),2)); ?>&amp;caption=<?php echo $this->helper('core/url')->getCurrentUrl(); ?>&amp;description=<?php echo urlencode(strip_tags($_product->getDescription())); ?>&amp;redirect_uri=<?php echo $this->helper('core/url')->getCurrentUrl(); ?>" target="_blank"><img src="<?php echo ($this->getSkinUrl('images/sprite_foreground.png')) ?>" alt="<?php echo $this->__('Share on Facebook') ?>" height="16" width="16" title="<?php echo $this->__('Share on Facebook') ?>" class="product-facebook facebook-sprite" /></a>
+                <a href="http://twitter.com/share?text=<?php echo urlencode($_helper->productAttribute($_product, $_product->getName(), 'name')." $".number_format($_product->getPrice(),2)); ?>&amp;url=<?php echo $this->helper('core/url')->getCurrentUrl();?>&amp;via=RestaurantGuru" target="_blank"><img src="<?php echo $this->getSkinUrl('images/sprite_foreground.png') ?>" alt="<?php echo $this->__('Share on Twitter') ?>" height="16" width="16" title="<?php echo $this->__('Share on Twitter') ?>" class="product-twitter twitter-sprite" /></a>
+                <?php if ($this->canEmailToFriend()): ?>
+                    <a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><img src="<?php echo $this->getSkinUrl('images/sprite_foreground.png') ?>" alt="<?php echo $this->__('Email to a Friend') ?>" height="16" width="16" title="<?php echo $this->__('Email to a Friend') ?>" class="product-image newsletter-sprite" /></a>
+                <?php endif ?>
+            </div> 
+            <?php $_attributeOptions = $_product->getAttributeText('other_filterable_attributes') ?>
+            <?php if ($_attributeOptions || $_product->getData('clearance_item')): ?> 
+                <div class="product-badges">
+                    <?php if (in_array("Free Freight", $_attributeOptions) || $_attributeOptions == 'Free Freight') : ?>
+                        <img src="<?php echo ($this->getSkinUrl('images/badges/free_freight.jpg')) ?>" alt="<?php echo $this->__('Free Freight') ?>" height="50" width="36" title="<?php echo $this->__('Free Freight') ?>" />
+                    <?php endif; ?>
+                    <?php if (in_array("Energy Star", $_attributeOptions)|| $_attributeOptions == 'Energy Star') : ?>
+                        <img src="<?php echo ($this->getSkinUrl('images/badges/energy_star.jpg')) ?>" alt="<?php echo $this->__('Energy Star') ?>" height="50" width="49" title="<?php echo $this->__('Energy Star') ?>" />
+                    <?php endif; ?>
+                    <?php if (in_array("Made In The USA", $_attributeOptions) || $_attributeOptions == 'Made In The USA') : ?>
+                        <img src="<?php echo ($this->getSkinUrl('images/badges/made_usa.jpg')) ?>" alt="<?php echo $this->__('Made In The USA') ?>" height="50" width="37" title="<?php echo $this->__('Made In The USA') ?>" />
+                    <?php endif; ?>
+                    <?php if (in_array("Energy Rebates Available", $_attributeOptions) || $_attributeOptions == 'Energy Rebates Available') : ?>
+                        <img src="<?php echo ($this->getSkinUrl('images/badges/energyrebate.jpg')) ?>" alt="<?php echo $this->__('Energy Rebates Available') ?>" height="50" width="50" title="<?php echo $this->__('Energy Rebates Available') ?>" />
+                    <?php endif; ?>
+                    <?php if (in_array("NSF", $_attributeOptions) || $_attributeOptions == 'NSF') : ?>
+                        <img src="<?php echo ($this->getSkinUrl('images/badges/nsf.jpg')) ?>" alt="<?php echo $this->__('NSF') ?>" height="50" width="50" title="<?php echo $this->__('NSF') ?>" />
+                    <?php endif; ?>
+                    <?php if ($_product->getData('clearance_item')) : ?>
+                        <img src="<?php echo ($this->getSkinUrl('images/badges/clearance.jpg')) ?>" alt="<?php echo $this->__('Clearance') ?>" height="50" width="91" title="<?php echo $this->__('Clearance') ?>" />
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?> 
+        </div>
+
+        <div class="product-img-box">
+            <?php echo $this->getChildHtml('media') ?>
+            <?php if ($_helper->productAttribute($_product, $_product->getName(), 'name') <> $this->stripTags($this->getImageLabel($_product, 'image'), null, true)) :?>
+                <div class="image-disclaimer">*<?php echo $this->stripTags($this->getImageLabel($_product, 'image'), null, true)?></div>
+            <?php endif; ?>
+            <?php echo $this->getChildHtml('advancedattributes.swatches') ?>
+        </div>
+
+        <div class="clearer"></div>
+     
+    </form>
+    <script>
+    //<![CDATA[
+    $j(function () {
+        var tabContainers = $j('.product-collateral > div');
+    
+        $j('.rating-links a').click(function () {
+            var selectedElement = $j(this).attr('href');
+
+            tabContainers.hide().filter(selectedElement+'_contents').show();
+            
+            $j('ul.product-tabs li').removeClass('active');
+            $j(selectedElement).addClass('active');
+            
+            selectedElement = selectedElement.replace("#", "");
+
+            window.location.hash = selectedElement;
+            
+            return false;
+        });
+    });
+      //]]>
+    </script>        
+    <script type="text/javascript">
+    //<![CDATA[
+        var productAddToCartForm = new VarienForm('product_addtocart_form');
+        productAddToCartForm.submit = function(button, url) {
+            if (this.validator.validate()) {
+                var form = this.form;
+                var oldUrl = form.action;
+
+                if (url) {
+                   form.action = url;
+                }
+                var e = null;
+                try {
+                    this.form.submit();
+                } catch (e) {
+                }
+                this.form.action = oldUrl;
+                if (e) {
+                    throw e;
+                }
+
+                if (button && button != 'undefined') {
+                    button.disabled = true;
+                }
+            }
+        }.bind(productAddToCartForm);
+
+        productAddToCartForm.submitLight = function(button, url){
+            if(this.validator) {
+                var nv = Validation.methods;
+                delete Validation.methods['required-entry'];
+                delete Validation.methods['validate-one-required'];
+                delete Validation.methods['validate-one-required-by-name'];
+                // Remove custom datetime validators
+                for (var methodName in Validation.methods) {
+                    if (methodName.match(/^validate-datetime-.*/i)) {
+                        delete Validation.methods[methodName];
+                    }
+                }
+
+                if (this.validator.validate()) {
+                    if (url) {
+                        this.form.action = url;
+                    }
+                    this.form.submit();
+                }
+                Object.extend(Validation.methods, nv);
+            }
+        }.bind(productAddToCartForm);
+    //]]>
+    </script>
+    </div>
+
+    <div class="product-collateral">
+        <?php echo $this->getChildHtml('info_tabs') ?>
+        <?php echo $this->getChildHtml('product_additional_data') ?>
+    </div>
+    <?php echo $this->getChildHtml('catalog.product.related.servu') ?>
+</div>

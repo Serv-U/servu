@@ -1,0 +1,63 @@
+<?php 
+$category_id = "433"; // category_id for "Featured Products"
+$_productCollection = Mage::getResourceModel('catalog/product_collection')
+  ->addAttributeToSelect(array('name', 'price', 'small_image', 'manufacturer'), 'inner')
+  ->addCategoryFilter(Mage::getModel('catalog/category')->load($category_id));
+//loadByAttribute('code', codeName) test to see if this works?-DM
+
+$_coreHelper = $this->helper('core');
+$_taxHelper  = $this->helper('tax');
+
+foreach($_productCollection as $_manufacturer){
+    $manufacturer = $_manufacturer->getAttributeText('manufacturer');
+}
+?>
+ 
+<?php if($_productCollection->count()): ?>
+  <div class="title">
+    <h2><?php echo __('Featured Manufacturer for the Month of ').date('F')." - ".$manufacturer;?></h2>
+  </div>
+      <?php 
+      $i = 0;
+      $len = count($_productCollection);
+      if ($len > 4 ) {
+          $len = 4;
+      }
+        
+      foreach ($_productCollection as $_product) {
+        $_price = $_taxHelper->getPrice($_product, $_product->getPrice());   
+        if ($i != $len - 1) {
+      ?>
+            <div class="featured-content-box">
+      <?php
+        }
+        else {
+      ?>
+            <div class="featured-content-box last">
+      <?php
+        }      
+      ?>
+            <div class="img-box">      
+                <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>">
+                  <img class="product-image" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(150, 150); ?>" width="150" height="150" alt="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" />
+                </a>
+            </div>
+          <div class="featured-content-sub">
+            <div class="product-name">
+                <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>">
+                    <?php echo $_product->getAttributeText('manufacturer')." ".$this->htmlEscape($_product->getName())?></a>
+            </div>
+            <div class="price">
+                <?php $productObject = Mage::getModel('catalog/product')->load($_product->getId());?>
+                <?php echo $this->getPriceHtml($productObject, true) ?>
+            </div>
+
+            <a class="details-button" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>">see details</a>
+          </div>
+      </div>
+      <?php
+      $i++;
+      }
+      ?>
+      <div style="clear: both;"></div>
+<?php endif; ?>

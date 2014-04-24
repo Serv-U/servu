@@ -1,0 +1,18 @@
+<config>
+    <modules>
+        <ServU_Checkout>
+            <version>0.1.0</version>
+        </ServU_Checkout>
+    </modules>
+    <frontend>
+        <routers>
+            <checkout>
+                <args> 
+                    <modules> 
+                        <ServU_Checkout before="Mage_Checkout">ServU_Checkout</ServU_Checkout> 
+                    </modules> 
+                </args> 
+            </checkout>
+        </routers>
+    </frontend>
+</config>

@@ -1,0 +1,47 @@
+<?php $_categories = $this->getStoreCategories() ?>
+<?php if(count($_categories)): ?>
+<div class="nav-container">
+    <div id="custommenu">
+        <?php if ($this->showHomeLink()) : ?>
+        <div class="menu">
+            <div class="parentMenu">
+                <a href="<?php echo $this->getUrl('') ?>">
+                    <span><?php echo $this->__('Home'); ?></span>
+                </a>
+            </div>
+        </div>
+        <?php endif
+        //DM 2/1/13 For some reason, $this->getSkinUrl('images/custom_menu_arrow.png') does not always preserve SSL security, so for now we are using a relative path here. This will break if we change anything
+        //DM 6/11/13 custom_menu_arrow was changed to sprite_foreground_png for sprite sheet purposes
+        ?>
+        <img id="menu_arrow" width="13" height="7" style="position:absolute; display:none; left: 0; z-index: -999;" src="/skin/frontend/servu/blue/images/sprite_foreground.png" alt="Custom Menu Arrow" />
+        <?php $i = 0;?>
+        <?php foreach ($_categories as $_category): ?>
+            <?php
+                $last = false;
+                $first = false;
+                $i++;
+                if ($i == count($_categories)){
+                    $last = true;
+                }
+                if ($i == 1){
+                    $first = true;
+                }
+            ?>
+            <?php echo $this->drawCustomMenuItem($_category, 0, $last, $first);?>
+        <?php endforeach ?>
+        <div class="clearBoth"></div>
+    </div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+var CUSTOMMENU_POPUP_WIDTH = <?php echo Mage::getStoreConfig('custom_menu/popup/width') + 0; ?>;
+var CUSTOMMENU_POPUP_TOP_OFFSET = <?php echo Mage::getStoreConfig('custom_menu/popup/top_offset') + 0; ?>;
+var CUSTOMMENU_POPUP_RIGHT_OFFSET_MIN = <?php echo Mage::getStoreConfig('custom_menu/popup/right_offset_min') + 0; ?>;
+var CUSTOMMENU_POPUP_DELAY_BEFORE_DISPLAYING = <?php echo Mage::getStoreConfig('custom_menu/popup/delay_displaying') + 0; ?>;
+var CUSTOMMENU_POPUP_DELAY_BEFORE_HIDING = <?php echo Mage::getStoreConfig('custom_menu/popup/delay_hiding') + 0; ?>;
+var wpCustommenuTimerShow = {};
+var wpCustommenuTimerHide = {};
+//]]>
+</script>
+<?php endif ?>

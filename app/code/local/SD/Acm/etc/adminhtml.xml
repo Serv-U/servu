@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>    
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <acm translate="title">
+                                        <title>Abandoned Cart Mailer</title>
+                                        <sort_order>510</sort_order>
+                                    </acm>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <newsletter>
+                        <children>
+                            <acm>
+                                <title>Abandoned Cart Mailer</title>
+                                <sort_order>600</sort_order>
+                                <children>
+                                    <history>
+                                        <title>History</title>
+                                        <sort_order>0</sort_order>
+                                    </history>
+                                    <daily>
+                                        <title>Daily Statistics</title>
+                                        <sort_order>10</sort_order>
+                                    </daily>
+                                    <individual>
+                                        <title>Individual Statistics</title>
+                                        <sort_order>20</sort_order>
+                                    </individual>
+                                </children>
+                            </acm>
+                        </children>
+                    </newsletter>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

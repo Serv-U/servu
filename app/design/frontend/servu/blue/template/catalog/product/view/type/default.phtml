@@ -1,0 +1,114 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php /* @var $this Mage_Catalog_Block_Product_View_Abstract */?>
+<?php $_product = $this->getProduct() ?>
+<?php if ($_product->isAvailable()): ?>
+    <?php $inventory = (int)Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty() ?>
+    <?php if ($_product->isConfigurable()): ?>
+        <?php $inventory = 0; ?>
+        <?php $_associatedProducts = $_product->getTypeInstance(true)->getUsedProducts(null, $_product) ?>    
+        <?php foreach ($_associatedProducts as $p) : ?>
+                <?php if ((int) $p->_data['stock_item']->_data['qty'] > 0): ?>
+                    <?php $inventory = (int) $p->_data['stock_item']->_data['qty'] ?>
+                    <?php break; ?>
+                <?php endif; ?>
+        <?php endforeach; ?>    
+    <?php endif; ?>
+    <?php $centralWarehouse = Mage::getStoreConfig('shipping/option/central_warehouse'); ?>
+    <?php if ($inventory > 0): ?>
+            <?php if ($_product->getTypeId() == "configurable"): ?>
+                <?php $configurableAttributeCollection = $_product->getTypeInstance()->getConfigurableAttributes() ?>
+                <script>
+                //<![CDATA[
+                $j(document).ready(function() {
+                    $j('#stock-options').hide();
+                    $j('#stock-options-toggle').click(function() {
+                        $j('#stock-options').slideToggle();
+                        return false;
+                    });
+                });
+                //]]> 
+                </script>
+                <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><a id="stock-options-toggle" href="#" title="Click to see availability of all product options"><?php echo $this->__('Check Item Stock Status') ?></a></span></p>
+                <div id="stock-options">
+                        <table id="inventory-table">
+                            <tr>
+                        <?php foreach($configurableAttributeCollection as $attribute) : ?>
+                                <th><?php echo $attribute->getLabel() ?></th>
+                        <?php endforeach; ?>
+                                <th><?php echo $this->__('Status') ?></th>
+                            </tr>
+                        <?php foreach ($_associatedProducts as $product) : ?>
+                            <?php if ($product->isAvailable()): ?>
+                            <tr>
+                            <?php foreach($configurableAttributeCollection as $attribute) : ?>
+                                <?php $attrValue = $product->getResource()->getAttribute($attribute->getProductAttribute()->getAttributeCode())->getFrontend() ?>
+                                <?php $value = $attrValue->getValue($product) ?>
+                                <?php $inventory = (int) $product->_data['stock_item']->_data['qty'] ?>
+                                <td><?php echo $value ?></td>  
+                            <?php endforeach; ?>
+                            <?php if ($inventory > 0): ?>
+                                <td><?php echo $this->__('In Stock') ?></td>
+                            <?php else: ?>
+                                <?php if ($_product->getAttributeText('supplier') == $centralWarehouse): ?>
+                                    <td><?php echo $this->__('Accepting Backorders') ?></td>
+                                <?php else :?>
+                                    <td><?php echo $this->__('Ships from Supplier') ?></td>
+                                <?php endif;?>
+                            <?php endif; ?>
+                            </tr>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                        </table>
+                </div>
+            <?php else: ?>
+                <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('In Stock') ?></span></p>
+            <?php endif; ?>
+    <?php else: ?>
+        <?php if ($_product->getAttributeText('supplier') == $centralWarehouse): ?>
+            <p class="availability accepting-backorders"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Accepting Backorders') ?></span></p>
+        <?php else: ?>
+            <p class="availability ships-from-supplier"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Ships from Supplier') ?></span></p>
+        <?php endif; ?>
+    <?php endif; ?>
+<?php else: ?>
+    <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
+<?php endif; ?>
+<?php echo $this->getChildHtml('product_type_data_extra') ?>
+
+<?php /*******1.MAPP RELATED CODE*****/ ?>
+    <?php //echo $this->getPriceHtml($_product) ?>
+    <?php $mapp_cart=$_product->getAttributeText('cart_apply_mapp');?>
+    <?php $showreg=$_product->getAttributeText('showregularprice'); ?>
+    <?php $mapp = $_product->getAttributeText('apply_map'); ?>
+    <?php if($mapp_cart == "No"): ?>
+        <?php if($showreg != "No"): ?>
+            <?php echo $this->getPriceHtml($_product); ?> 
+        <?php endif; ?>
+    <?php endif; ?>
+<?php /******* END MAPP RELATED CODE*****/ ?>	
+

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <ServU_Shipping>
+            <active>true</active>
+            <codePool>local</codePool>
+        </ServU_Shipping>
+    </modules>
+</config>

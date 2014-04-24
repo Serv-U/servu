@@ -1,0 +1,60 @@
+<?php 
+    //Set number of form fields
+    $NUMBER_OF_FIELDS = 5;
+    
+    //Check for secure page
+    $isSecure = Mage::app()->getStore()->isCurrentlySecure();
+    if($isSecure == true){
+        $ajax_base_url = $this->getUrl('', array('_secure'=>true));
+        $loading_image = $this->getSkinUrl('', array('_secure'=>true)) . 'images/opc-ajax-loader.gif';
+    }
+    else{
+        $ajax_base_url = $this->getUrl('');
+        $loading_image = $this->getSkinUrl('') . 'images/opc-ajax-loader.gif';
+    }
+?>    
+
+<div class="block">
+    <noscript><em>Please enable Javascript in order to use the Quick Add Cart</em></noscript>
+
+    <script type="text/javascript">
+        function callCartAjax(quickcartdata){
+            quickCartAjax(quickcartdata, "<?php echo $ajax_base_url . "quickcart/index/index"; ?>");
+        }
+
+        function callNextAttrAjax(select_id){
+            nextConfigAttr(select_id, "<?php echo $ajax_base_url . "quickcart/index/nextattribute"; ?>");
+        }    
+    </script>
+
+    <div id="quick-add-cart" style="display: none;">
+        <div class="block-title"><strong><span>Quick Add to Cart</span></strong></div>
+        <p id="quick-add-instructions">Enter catalog numbers below to add items directly into your cart.</p>
+        <form id="quickCartForm" method="post" action="#">
+            <?php
+            $i = 1;
+            while($i <= $NUMBER_OF_FIELDS ){
+            ?>
+                <div class="quick-cart-input">
+                    <input id="quickaddsku<?php echo $i; ?>" class="quickcartsku input-text" type="text" placeholder="SKU #<?php echo $i; ?>"/>
+                    <div id="quickaddsku<?php echo $i; ?>msg" class="quick-cart-msg" style="display: none;"></div>
+                </div>
+            <?php 
+                $i++;
+            }
+            ?>
+            <button id="quickaddsubmit" type="button" class="button"><span><span>Add to Cart</span></span></button>
+        </form>
+
+        <img style="display: none;" id="quickaddloading" height="18" width="76" src='<?php echo $loading_image; ?>' alt="loading" />
+        <div id="qc-error-msg" class="error"></div>
+        <div id="quick-add-links">
+            <div id="QCCartSummary"></div>
+            <div>
+                <a href='#quick-add-cart' onclick="resetForm(); return false;" >Reset Form</a>
+                <span class="separator">|</span>
+                <a href="<?php echo $this->getUrl('checkout/cart')?>">Go to Cart</a>
+            </div>
+        </div>
+    </div>
+</div>

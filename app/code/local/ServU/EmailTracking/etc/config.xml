@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <ServU_Emailtracking>
+            <version>0.0.1</version>
+	</ServU_Emailtracking>
+    </modules>
+    <global>
+        <models>
+            <servu_emailtracking>
+                <class>ServU_EmailTracking_Model</class>
+            </servu_emailtracking>
+        </models>            
+    </global>
+    <crontab>
+        <jobs>
+            <servu_emailtracking>
+                <schedule>
+                    <!--Run job at 1am, uncomment the next line to do so-->
+                    <!--<cron_expr>20 * * * *</cron_expr>-->
+                    <cron_expr>15 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>servu_emailtracking/observer::emails</model>
+                </run>
+            </servu_emailtracking>
+        </jobs>
+    </crontab> 
+</config>

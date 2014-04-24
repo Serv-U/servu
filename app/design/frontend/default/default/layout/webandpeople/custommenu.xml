@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <block type="custommenu/toggle"></block>
+    </default>
+
+    <wp_custommenu_sidebar>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/webandpeople/custommenu/custommenu-sidebar.js</name></action>
+            <action method="addItem"><type>skin_css</type><name>css/webandpeople/custommenu/custommenu-sidebar.css</name></action>
+        </reference>
+        <block name="custommenu.sidebar" type="custommenu/navigation" template="webandpeople/custommenu/sidebar.phtml" before="-"/>
+    </wp_custommenu_sidebar>
+
+    <wp_custommenu_left>
+        <update handle="wp_custommenu_sidebar" />
+        <reference name="left">
+            <action method="insert"><block>custommenu.sidebar</block></action>
+        </reference>
+    </wp_custommenu_left>
+</layout>

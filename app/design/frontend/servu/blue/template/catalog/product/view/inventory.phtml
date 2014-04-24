@@ -1,0 +1,76 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php $_product = $this->getProduct() ?>
+<?php $products = array() ?>
+<?php $inventory = 0 ?>
+<?php $allProducts = $_product->getTypeInstance(true)->getUsedProducts(null, $_product) ?>
+<?php $centralWarehouse = Mage::getStoreConfig('shipping/option/central_warehouse'); ?>
+<?php foreach ($allProducts as $product) : ?>
+    <?php if ($product->isSaleable()) : ?>
+        <?php $products[] = $product ?>
+        <?php else: ?>
+            <?php $products[] = $product ?>
+    <?php endif; ?>
+<?php endforeach; ?>
+<?php foreach ($products as $product) : ?>
+    <?php if ((int) $product->_data['stock_item']->_data['qty'] > 0): ?>
+        <?php $inventory = (int) $product->_data['stock_item']->_data['qty'] ?>
+        <?php break; ?>
+    <?php endif; ?>
+<?php endforeach; ?>   
+<?php if ($inventory > 0): ?>
+    <?php if ($_product->getAttributeText('supplier') == $centralWarehouse): ?>
+        <?php $negativeStatus = 'Accepting Backorders' ?>
+    <?php else :?>
+        <?php $negativeStatus = 'Ships from Supplier' ?>
+    <?php endif;?>
+    <?php $configurableAttributeCollection = $_product->getTypeInstance()->getConfigurableAttributes() ?>
+    <div class="simple-inventory">
+    <table width="100%">
+        <tr>
+    <?php foreach($configurableAttributeCollection as $attribute) : ?>
+            <td><?php echo $attribute->getLabel() ?></td>
+    <?php endforeach; ?>
+            <td><?php echo $this->__('Status') ?></td>
+        </tr>
+    <?php foreach ($products as $product) : ?>
+        <tr>
+        <?php foreach($configurableAttributeCollection as $attribute) : ?>
+            <?php $attrValue = $product->getResource()->getAttribute($attribute->getProductAttribute()->getAttributeCode())->getFrontend() ?>
+            <?php $value = $attrValue->getValue($product) ?>
+            <?php $inventory = (int) $product->_data['stock_item']->_data['qty'] ?>
+            <td><?php echo $value ?></td>  
+        <?php endforeach; ?>
+        <?php if ($inventory > 0): ?>
+            <td><?php echo $this->__('In Stock') ?></td>
+        <?php else: ?>
+            <td><?php echo $this->__($negativeStatus) ?></td>
+        <?php endif; ?>
+    <?php endforeach; ?>
+    </table>
+    </div>
+<?php endif; ?>

@@ -1,0 +1,160 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<?php $_product = Mage::registry('current_product'); ?>
+<?php $apply_mapp = $_product->getAttributeText('apply_map'); ?>
+<?php $mapp_cart = $_product->getAttributeText('cart_apply_mapp'); ?>
+<?php //$showreg = $_product->getAttributeText('showregularprice'); ?>
+<?php //$_activatemapp = Mage::getStoreConfig('mapp_code/mapp_group/mapp');?>
+<?php echo $this->getLayout()->createBlock('core/template')->setTemplate('zflowmapp/zflowmapp.phtml')->toHtml(); ?>
+
+<?php if($mapp_cart == 'No' && $apply_mapp == 'Yes'): ?>
+    <noscript>Please enable Javascript in order to request our best pricing</noscript>
+    <img id="mapp-loading" style="display: none;" src="<?php echo $this->getSkinUrl('') . 'images/opc-ajax-loader.gif'; ?>" alt="loading">
+        <div id="mapp-form-container">
+            <div id="mapp-label"><?php echo Mage::getStoreConfig('mapp_code/mapp_group/mapp_enable'); ?></div>
+            <span id="mapp-email-container"><input name="mapp-email" placeholder="Please enter your email address" id="mapp-email" title="Email" type="text"/></span>
+            <button id="mapp-submit" class="button" type="button"><span><span><?php echo __('Send Price')?></span></span></button>
+        </div>
+        <div id="mapp-response" style="display: none;"></div>
+        <div style="clear:both;"></div>
+    <script type="text/javascript">
+        $j( document ).ready(function() {
+            //Show form if javascript is enabled
+            $j('#mapp-form-container').show();
+
+            //Remove validation errors from mapp-email field when Add-to-Cart is clicked
+            $j('.add-to-cart .btn-cart').bind('click', function(){
+                if($j('#mapp-email').hasClass('validation-failed')){
+                    $j('#mapp-email').removeClass('validation-failed').removeClass('validate-email').removeClass('required-entry');
+                    $j('#mapp-email-container .validation-advice').remove();
+                    $j('.add-to-cart .btn-cart').trigger('click');
+                }
+            });
+
+            //Bind form submit to onclick event
+            $j('#mapp-submit').bind('click', function(){
+                submitMappRequest();
+            });
+
+            //Bind form submit to Enter Key
+            $j('#mapp-form-container input').keypress(function(e) {
+                var code = e.which;
+                if (code == 13 && $j('#mapp-submit').css('display') != 'none') {
+                    submitMappRequest();
+                }
+            });
+        });
+        
+        function submitMappRequest(){
+            //class="required-entry validate-email" 
+            var mapp_email_field = $('mapp-email');
+            mapp_email_field.addClassName('validate-email');
+            mapp_email_field.addClassName('required-entry');
+            
+            //Manually call validation since this is not an actual form submission
+            if(!Validation.validate(mapp_email_field)){
+                $j('#mapp-email').focus();
+                return false;
+            }
+
+            //Submit request
+            showMappLoading();
+            getResponseToDiv();
+        }
+
+        function getXMLHTTP() {
+            var xmlhttp=false;
+            try{
+                xmlhttp=new XMLHttpRequest();
+            }
+            catch(e) {
+                try {
+                    xmlhttp= new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                catch(e) {
+                    try {
+                        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+                    }
+                    catch(e1) {
+                        xmlhttp=false;
+                    }
+                }
+            }
+            return xmlhttp;
+        }
+
+        function getResponseToDiv() {
+            //var emailParam="";
+            var emailParam=$("mapp-email").value;
+
+            var productId = "<?php echo $_product->getId()?>";
+            //var strURL="<?php echo $this->getBaseUrl()?>"+"mapp/index/processMappRequest?email="+emailParam+"&productIdParam="+productId;       
+            var strURL="<?php echo $this->getBaseUrl()?>"+"mapp/index/processMappRequest";  
+            
+            var req = getXMLHTTP();
+            if (req) {
+                req.onreadystatechange = function() {
+                    if (req.readyState==2 || 4) {
+                        document.body.style.cursor = "wait";
+                    }
+
+                    if (req.readyState == 4) {	
+                    document.body.style.cursor = "auto";		
+                        if (req.status == 200) {
+                            $("mapp-response").innerHTML=req.responseText;
+                            showMappResponse();
+                        } else {
+                            console.log("There was a problem while using XMLHTTP:\n" + req.statusText);
+                        }
+                    }
+                }
+
+                req.open("POST",strURL, true);
+                req.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                req.send("email="+emailParam+"&productIdParam="+productId);
+                //req.open("GET", strURL, true);
+                //req.send(null);
+            }
+        }
+
+        function showMappForm(){
+            $("mapp-form-container").setStyle({display: 'block'});
+            $("mapp-response").setStyle({display: 'none'});
+        }
+        
+        function showMappLoading(){
+            $("mapp-form-container").setStyle({display: 'none'});
+            $("mapp-loading").setStyle({display: 'block'});
+        }
+        
+        function showMappResponse(){
+            $("mapp-loading").setStyle({display: 'none'});
+            $("mapp-response").setStyle({display: 'block'});
+        }        
+    </script>    
+<?php endif; ?>

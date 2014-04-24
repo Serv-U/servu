@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>    
+    <menu>
+        <catalog>
+            <children>
+                <drop translate="title">
+                    <title><![CDATA[Manage Suppliers]]></title>
+                    <sort_order>3</sort_order>
+                    <action>adminhtml/supplier</action> 
+                </drop>
+            </children>
+        </catalog>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <catalog>
+                        <children>
+                            <drop translate='title'>
+                                <title><![CDATA[Manage Suppliers]]></title>
+                                <sort_order>2</sort_order>
+                            </drop>
+                        </children>
+                    </catalog>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

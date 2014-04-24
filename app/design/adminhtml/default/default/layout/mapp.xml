@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <mapp_adminhtml_mapp_index>
+        <reference name="content">
+            <block type="mapp/adminhtml_mapp" name="mapp" />
+        </reference>
+    </mapp_adminhtml_mapp_index>
+</layout>

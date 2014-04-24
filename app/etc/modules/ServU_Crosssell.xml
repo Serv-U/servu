@@ -1,0 +1,9 @@
+<config>
+    <modules>
+        <ServU_Crosssell>
+            <active>true</active>
+            <codePool>local</codePool>
+            <version>1.0</version>
+        </ServU_Crosssell>
+    </modules>
+</config>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <adminhtml_historyreview_index>
+        <reference name="content">
+            <block type="reviewreminder/adminhtml_history" name="historyReview" />
+        </reference>
+    </adminhtml_historyreview_index>
+    <adminhtml_individualreview_index>
+        <reference name="content">
+            <block type="reviewreminder/adminhtml_individual" name="individualReview" />
+        </reference>
+    </adminhtml_individualreview_index>
+</layout>

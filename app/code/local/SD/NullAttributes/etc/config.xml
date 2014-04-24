@@ -1,0 +1,18 @@
+<config>
+    <modules>
+        <SD_NullAttributes>
+            <version>0.0.1</version>
+	</SD_NullAttributes>
+    </modules>
+    <global>
+        <blocks>
+            <catalog>
+                <rewrite>
+                    <product_view_attributes>SD_NullAttributes_Block_Attributes</product_view_attributes>  
+                </rewrite>
+            </catalog>
+        </blocks>
+    </global>
+</config>
+    
+            

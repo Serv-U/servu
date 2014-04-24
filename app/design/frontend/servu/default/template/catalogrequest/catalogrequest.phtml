@@ -1,0 +1,191 @@
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="catalog-request">
+    <div class="page-title">
+        <h1><?php echo $this->__('Request Your Free Catalog')?></h1>
+    </div>
+
+    <div class="catalog-form">
+        <p><?php echo $this->__("Enter your information below to receive our free catalog by mail");?></p>
+        <form name="form" id="catalogrequest" method="post" action="<?php echo $this->getFormAction(); ?>" onsubmit="return verify();">
+            <ul>
+                <li>
+                    <div class="input-box">
+                        <label for="firstname"><?php echo $this->__('First Name'); ?><span class="required">*</span></label>
+                        <input name="fname" type="text" class="required-entry input-text">
+                    </div>
+
+                    <div class="input-box">
+                        <label for="lastname"><?php echo $this->__('Last Name'); ?><span class="required">*</span></label>
+                        <input type="text" name="lname" class="required-entry input-text">
+                    </div>
+                </li>
+                <li>
+                    <div class="input-box">
+                        <label for="company"><?php echo $this->__('Company'); ?></label>
+                        <input type="text" name="company" size="50" class="input-text">
+                    </div>
+                </li>
+                <li>
+
+                    <div class="input-box">
+                        <label for="address1"><?php echo $this->__('Address'); ?><span class="required">*</span></label>
+                        <input type="text" name="address1" size="50" class="required-entry input-text">
+                    </div>
+                </li>
+                <li>
+                    <div class="input-box">
+                        <label for="address2"></label>
+                        <input type="text" name="address2" size="50" class=" input-text">
+                    </div>
+                </li>
+                <li>
+                    <div class="input-box">
+                        <label for="city"><?php echo $this->__('City'); ?><span class="required">*</span></label>
+                        <input type="text" name="city" class="required-entry input-text">
+                    </div>
+
+                    <div class="input-box">
+                        <label for="region"><?php echo $this->__('State/Province'); ?><span class="required">*</span></label>
+                        <select id="region_id" name="state" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display: none;">
+                            <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+                        </select>
+                        <input type="text" id="region" name="region" value=""  title="<?php echo $this->__('State/Province') ?>" class="input-text" style="display:none;" />
+                    </div>
+                </li>
+                <li>
+                    <div class="input-box">
+                        <label for="zip"><?php echo $this->__('Zip Code'); ?><span class="required">*</span></label>
+                        <input type="text" name="zip" class="required-entry input-text">
+                    </div>
+
+                    <div class="input-box">
+                        <label for="country"><?php echo $this->__('Country'); ?><span class="required">*</span></label>
+                        <?php echo Mage::getBlockSingleton('directory/data')->getCountryHtmlSelect(); ?>
+                    </div>
+                </li>
+                <li>
+                    <div class="input-box">
+                        <label for="phone"><?php echo $this->__('Phone'); ?><span class="required">*</span></label>
+                        <input type="text" name="phone" class="input-text  required-entry validate-phoneLax">
+                    </div>
+                </li>
+                <li>
+                    <div class="input-box">
+                        <label for="email"><?php echo $this->__('Email'); ?><span class="required">*</span></label>
+                        <input type="text" name="email" class="required-entry validate-email input-text" size="50">
+                    </div>
+                </li>
+                <li class="confirm-fa-h">
+                    <div class="input-box">
+                        <label for="confirm-email"><?php echo $this->__('Confirm Email'); ?></label>
+                        <input type="text" name="confirm-email" size="50">
+                    </div>
+                </li>
+            </ul>
+            <ul class="request-options">
+                <li><label for="product_interest"><?php echo $this->__('Product Interest'); ?></label>
+                    <select name="product_interest" id="heardof">
+                        <option value="Bar Equipment">Bar Equipment</option>
+                        <option value="Glassware">Glassware</option>
+                        <option value="Furniture">Furniture</option>
+                        <option value="Restaurant Equipment">Restaurant Equipment</option>
+                        <option value="Food Prep">Food Prep</option>
+                        <option value="Pizza Equipment">Pizza Equipment</option>
+                        <option value="Janitorial Equipment">Janitorial Equipment</option>
+                        <option value="Refrigeration">Refrigeration</option>
+                    </select>
+                </li>
+                <li><label for="heardofus"><?php echo $this->__('Where did you hear about us?'); ?></label>
+                    <select name="heardofus" id="heardof">
+                        <option value="">Choose wisely</option>
+                        <option value="ISFRD">Friend</option>
+                        <option value="ISCAT">Serv-U Catalog</option>
+                        <option value="ISFLY">Serv-U Sales Flyer</option>
+                        <option value="ISEML">Email Promotion</option>
+                        <option value="ISSOC">Social Promotion</option>
+                        <option value="ISREP">Sales Rep</option>
+                        <option value="ISSEG">Search Engine - Google</option>
+                        <option value="ISSEY">Search Engine - Yahoo</option>
+                        <option value="ISSEM">Search Engine - Bing</option>
+                        <option value="ISSEN">Search Engine - Netscape</option>
+                        <option value="ISSEA">Search Engine - AOL</option>
+                        <option value="ISSEO">Search Engine - Other</option>
+                    </select>
+                </li>
+                <li><label for="res_bus"><?php echo $this->__('Business/Residential'); ?></label>
+                    <input type="radio" value="business" name="res_bus" checked="checked"><span>Business</span>
+                    <input type="radio" value="residential" name="res_bus"><span>Residential</span>
+                </li>
+                <li><label for="exist_customer"><?php echo $this->__('Existing Customer'); ?></label>
+                    <input type="radio" value="1" name="exist_customer"><span>Yes</span>
+                    <input type="radio" value="0" name="exist_customer" checked="checked"><span>No</span>
+                </li>
+                <li><label for="first_catalog"><?php echo $this->__('Is this your first catalog?'); ?></label>
+                    <input type="radio" value="1" name="first_catalog"><span>Yes</span>
+                    <input type="radio" value="0" name="first_catalog" checked="checked"><span>No</span>
+                </li>
+                <li><button class="button" title="Submit" type="submit"><span><span>Submit</span></span></button></li>
+            </ul>
+        </form>
+
+        <script type="text/javascript">
+            var dataForm = new VarienForm('catalogrequest', true);
+            new RegionUpdater('country', 'region', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>);
+        </script>
+    </div>
+    
+    <div class="page-title">
+        <h1><?php echo $this->__('Download a Catalog')?></h1>
+    </div>
+    
+    <div class="catalog-download">
+        <p><?php echo $this->__('These files require Adobe Acrobat Reader. You may download it'); ?> <a target="_blank" title="Adobe Acrobat Reader" href="http://get.adobe.com/reader/"><?php echo $this->__('here'); ?> </a></p>
+        <div class="catalog-list">
+            <!--Rows of 3 -->
+            <ul class="catalog-row">
+                <li>
+                    <h2 class="catalog-name">
+                        <a target="_blank" title="B72 April 2014" href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'files/fullcatalog/book72b.pdf' ?>">B72 April 2014</a>
+                    </h2>
+                    <a target="_blank" class="catalog-image" title="Download Catalog B72 " href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'files/fullcatalog/book72b.pdf' ?>">
+                        <img src="<?php echo $this->getSkinUrl('images/book72a.jpg') ?>" alt="B72 Book Cover" width="150" height="195"/>
+                    </a>
+                </li>
+                <li>
+                    <h2 class="catalog-name">
+                        <a target="_blank" title="B71 Jan 2014 - March 2014" href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'files/fullcatalog/book71.pdf' ?>">B71 Jan 2014 - March 2014</a>
+                    </h2>
+                    <a target="_blank" class="catalog-image" title="Download Catalog B71" href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'files/fullcatalog/book71.pdf' ?>">
+                        <img src="<?php echo $this->getSkinUrl('images/book71a.jpg') ?>" alt="B71 Book Cover" width="150" height="195"/>
+                    </a>
+                </li>
+                <li>
+                    <h2 class="catalog-name">
+                        <a target="_blank" title="B70 August 2013 - Dec. 2013" href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'files/fullcatalog/book70.pdf' ?>"><?php echo $this->__('B70 August 2013 - Dec. 2013'); ?></a>
+                    </h2>
+                    <a target="_blank" class="catalog-image" title="Download Catalog B70" href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'files/fullcatalog/book70.pdf' ?>">
+                        <img src="<?php echo $this->getSkinUrl('images/book70.jpg') ?>" alt="B70 Book Cover" width="150" height="195"/>
+                    </a>
+                </li>
+            </ul>
+            <ul class="catalog-row">
+                <li>
+                    <h2 class="catalog-name">
+                        <a target="_blank" title="B69B June 2013 - July 2013" href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'files/fullcatalog/Book69B.pdf' ?>"><?php echo $this->__('B69B June 2013 - July 2013'); ?></a>
+                    </h2>
+                    <a target="_blank" class="catalog-image" title="Download Catalog B69" href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'files/fullcatalog/Book69B.pdf' ?>">
+                        <img src="<?php echo $this->getSkinUrl('images/Book69B.jpg') ?>" alt="B69B Book Cover" width="150" height="195"/>
+                    </a>
+                </li>
+                <li>
+                    <h2 class="catalog-name">
+                        <a target="_blank" title="B69A April 2013 - May 2013" href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'files/fullcatalog/Book69A.pdf' ?>"><?php echo $this->__('B69A April 2013 - May 2013'); ?></a>
+                    </h2>
+                    <a target="_blank" class="catalog-image" title="Download Catalog B69A" href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'files/fullcatalog/Book69A.pdf' ?>">
+                        <img src="<?php echo $this->getSkinUrl('images/Book69A.jpg') ?>" alt="B69A Book Cover" width="150" height="195"/>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

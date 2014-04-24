@@ -1,0 +1,92 @@
+@import "mixin.less";
+
+.searchindex-results {
+    @borderColor: #ACACAC;
+
+    .clearfix();
+    margin-bottom: 10px;
+    border-bottom: 1px solid @borderColor;
+
+    li {
+        margin-bottom: -1px;
+        float: left;
+        .clearfix();
+        margin: 0px 1px 0px 0px;
+
+        a {
+            font-size: 12px;
+            font-weight: bold;
+            color: #FFF;
+            display: block;
+            cursor: pointer;
+            padding: 2px 5px 1px 5px;
+            line-height: 20px;
+            border: 1px solid @borderColor;
+            border-bottom:none;
+            background-color:@borderColor;
+            text-decoration: none;
+
+            &:hover {
+                background-color:#DDD;
+                border: 1px solid @borderColor;
+                border-bottom:none;
+                color:#444;
+            }
+
+            span {
+                font-weight: normal;
+                font-size: 0.9em;
+            }
+        }
+
+        &.active {
+            a {
+                background-color:#FFF;
+                cursor: default;
+                color:#000;
+            }
+        }
+    }
+}
+
+.searchindex-result {
+    li {
+        padding: 0px 0px 10px 0px;
+
+        .title {
+            a {
+                font-weight: bold;
+                color: #025FC7;
+                font-size: 15px;
+            }
+        }
+    }
+
+    .pager {
+        float:none;
+        text-align:left;
+        padding-bottom:15px;
+
+        .amount {
+            padding-top: 2px;
+        }
+        
+        .pages {
+            float: right;
+            padding-top: 2px;
+            width: 275px;
+        }
+    }
+
+    &.searchindex-result-category {
+        margin-bottom: 20px;
+        li {
+            padding: 1px 0px;
+
+            a {
+                font-weight: bold;
+                color: #203548;
+            }
+        }
+    }
+}

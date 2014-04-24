@@ -1,0 +1,9 @@
+<config>
+    <modules>
+        <ServU_BlogProducts>
+            <active>true</active>
+            <codePool>local</codePool>
+            <version>0.0.2</version>
+        </ServU_BlogProducts>
+    </modules>
+</config>

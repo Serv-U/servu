@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <adminhtml_history_index>
+        <reference name="content">
+            <block type="acm/adminhtml_history" name="history" />
+        </reference>
+    </adminhtml_history_index>
+    <adminhtml_individual_index>
+        <reference name="content">
+            <block type="acm/adminhtml_individual" name="individual.statistics" />
+        </reference>
+    </adminhtml_individual_index>
+    <adminhtml_individual_edit>
+        <reference name="content">
+            <block type="acm/adminhtml_individual_sales_order_view_items" name="order_items" template="sd_acm/individual/sales/order/view/items.phtml" />
+        </reference>
+    </adminhtml_individual_edit>
+    <adminhtml_reports_statistics_daily>
+        <reference name="content">
+            <block type="acm/adminhtml_reports_daily" template="report/grid/container.phtml" name="daily.report.grid.container">
+                <block type="adminhtml/store_switcher" template="report/store/switcher/enhanced.phtml" name="store.switcher">
+                    <action method="setStoreVarNam"><var_name>store_ids</var_name></action>
+                </block>
+                <block type="acm/adminhtml_reports_daily_filter_base" name="grid.filter.form" />
+            </block>
+        </reference>
+    </adminhtml_reports_statistics_daily>
+</layout>
