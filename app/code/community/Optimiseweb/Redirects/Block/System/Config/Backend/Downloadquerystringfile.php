@@ -5,7 +5,7 @@
  *
  * @package     Optimiseweb_Redirects
  * @author      Kathir Vel (sid@optimiseweb.co.uk)
- * @copyright   Copyright (c) 2014 Optimise Web
+ * @copyright   Copyright (c) 2013 Optimise Web Limited
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Optimiseweb_Redirects_Block_System_Config_Backend_Downloadquerystringfile extends Mage_Adminhtml_Block_System_Config_Form_Field

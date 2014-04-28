@@ -5,7 +5,7 @@
  *
  * @package     Optimiseweb_Redirects
  * @author      Kathir Vel (sid@optimiseweb.co.uk)
- * @copyright   Copyright (c) 2014 Optimise Web
+ * @copyright   Copyright (c) 2013 Optimise Web Limited
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Optimiseweb_Redirects_Model_Redirector
@@ -102,12 +102,9 @@ class Optimiseweb_Redirects_Model_Redirector
             $query = parse_url($requestUrl);
             $queryUrl = $query['scheme'] . '://' . $query['host'] . $query['path'];
             $requestUrl = rtrim($queryUrl, '/');
+            parse_str($query['query'], $queryParts);
 
-            if (array_key_exists('query', $query)) {
-                parse_str($query['query'], $queryParts);
-            }
-
-            if (isset($queryParts) && is_array($queryParts)) {
+            if (is_array($queryParts)) {
 
                 $redirectLines = file(Mage::getBaseDir('media') . '/optimiseweb/redirects/' . Mage::getStoreConfig('optimisewebredirects/querystring/upload'));
 
