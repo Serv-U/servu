@@ -5,7 +5,7 @@
  *
  * @package     Optimiseweb_Redirects
  * @author      Kathir Vel (sid@optimiseweb.co.uk)
- * @copyright   Copyright (c) 2014 Optimise Web
+ * @copyright   Copyright (c) 2013 Optimise Web Limited
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Optimiseweb_Redirects_Block_System_Config_Backend_Download1 extends Mage_Adminhtml_Block_System_Config_Form_Field
@@ -34,7 +34,7 @@ class Optimiseweb_Redirects_Block_System_Config_Backend_Download1 extends Mage_A
         }
 
         $this->setElement($element);
-
+        
         if ($fileName) {
             $url = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'optimiseweb/redirects/' . $fileName;
             $html = "<a href='" . $url . "'>Download</a>";
