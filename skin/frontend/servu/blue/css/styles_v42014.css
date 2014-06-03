@@ -657,6 +657,7 @@ tr.summary-details-excluded { font-style:italic; }
 .featured-product .featured-content-box { height: auto; float: left; width: 160px; padding: 0px 11px 0px 0px; }
 .featured-product .featured-content-box.last { background: none; padding: 0px}
 .featured-product .details-button { padding-left: 6px; }
+.featured-product .featured-content-sub .price .special-price {margin:0px;}
 .featured-content-sub .product-name a { font-weight: normal;}
 /* ======================================================================================= */
 
