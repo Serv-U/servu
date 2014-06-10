@@ -6,19 +6,37 @@
  * and open the template in the editor.
  */
 ?>
-<ul>
+<div id="category-landing">
+<?php $i = 0;?>
 <?php foreach ($this->getCurrentCategory()->getChildrenCategories() as $_subcat): ?>
     <?php $_catName = Mage::helper('catalog/output')->categoryAttribute($_subcat, $_subcat->getName(), 'name') ?>
     <?php if (strpos(strtolower($_catName),'clearance') == false): ?>
+        <?php if ($i%3==0): ?>
+        <div class="category-landing-row">
+        <?php endif; ?>
+        <div class="sub-category<?php if ($i++%3==0):echo " third"; endif; ?>">
         <?php if ($_thumbnail = Mage::getModel('catalog/category')->load($_subcat->getId())->getThumbnail()): ?>
             <?php $_imageurl = Mage::getBaseUrl('media') . 'catalog/category/' . $_thumbnail;?>
+            <div class="sub-category-image">
+                <a title="<?php echo  $_catName ?>" href="<?php echo $_subcat->getUrl() ?>"><img width="155" height="155" alt="<?php echo  $_catName ?>" src="<?php echo $_imageurl ?>"></a>
+            </div>
         <?php endif; ?>
-        <?php echo $_imageurl;?>
-        <li><a href="<?php echo $_subcat->getUrl() ?>"><?php echo  $_catName ?></a><?php echo $_subcat->getThumbnail() ?></li>
-        <?php foreach ($_subcat->getChildrenCategories() as $_subsubcat):?>
-            <li><a href="<?php echo $_subsubcat->getUrl() ?>"><?php echo Mage::helper('catalog/output')->categoryAttribute($_subsubcat, $_subsubcat->getName(), 'name') ?></a></li>
-        <?php endforeach ?>
+            <div class="sub-categories">
+                <a title="<?php echo  $_catName ?>" href="<?php echo $_subcat->getUrl() ?>"><?php echo  $_catName ?></a>
+        <?php if (count($_subcat->getChildrenCategories())>0): ?>  
+            <ul class="sub-sub-categories">
+            <?php foreach ($_subcat->getChildrenCategories() as $_subsubcat):?>
+                <li><a href="<?php echo $_subsubcat->getUrl() ?>"><?php echo Mage::helper('catalog/output')->categoryAttribute($_subsubcat, $_subsubcat->getName(), 'name') ?></a></li>
+            <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+            </div>
+        </div>
+        <?php $i++;?>
+        <?php if ($i%3==0): ?>
+        </div>
+        <?php endif; ?>
     <?php endif; ?>
 <?php endforeach ?>
-</ul>
+</div>
 
