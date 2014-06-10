@@ -8,13 +8,14 @@
 ?>
 <div id="category-landing">
 <?php $i = 0;?>
+<?php $_numCats = count($this->getCurrentCategory()->getChildrenCategories());?>
 <?php foreach ($this->getCurrentCategory()->getChildrenCategories() as $_subcat): ?>
     <?php $_catName = Mage::helper('catalog/output')->categoryAttribute($_subcat, $_subcat->getName(), 'name') ?>
     <?php if (strpos(strtolower($_catName),'clearance') == false): ?>
-        <?php if ($i%3==0): ?>
+        <?php if ($i++%3==0): ?>
         <div class="category-landing-row">
         <?php endif; ?>
-        <div class="sub-category<?php if ($i++%3==0):echo " third"; endif; ?>">
+        <div class="sub-category<?php if(($i-1)%3==0): echo " third"; endif; ?>">
         <?php if ($_thumbnail = Mage::getModel('catalog/category')->load($_subcat->getId())->getThumbnail()): ?>
             <?php $_imageurl = Mage::getBaseUrl('media') . 'catalog/category/' . $_thumbnail;?>
             <div class="sub-category-image">
@@ -32,10 +33,9 @@
         <?php endif; ?>
             </div>
         </div>
-        <?php $i++;?>
-        <?php if ($i%3==0): ?>
+        <?php if ($i%3==0 || $i==$_numCats): ?>
         </div>
-        <?php endif; ?>
+        <?php endif ?>
     <?php endif; ?>
 <?php endforeach ?>
 </div>
