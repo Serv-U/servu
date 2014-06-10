@@ -1,0 +1,24 @@
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+?>
+<ul>
+<?php foreach ($this->getCurrentCategory()->getChildrenCategories() as $_subcat): ?>
+    <?php $_catName = Mage::helper('catalog/output')->categoryAttribute($_subcat, $_subcat->getName(), 'name') ?>
+    <?php if (strpos(strtolower($_catName),'clearance') == false): ?>
+        <?php if ($_thumbnail = Mage::getModel('catalog/category')->load($_subcat->getId())->getThumbnail()): ?>
+            <?php $_imageurl = Mage::getBaseUrl('media') . 'catalog/category/' . $_thumbnail;?>
+        <?php endif; ?>
+        <?php echo $_imageurl;?>
+        <li><a href="<?php echo $_subcat->getUrl() ?>"><?php echo  $_catName ?></a><?php echo $_subcat->getThumbnail() ?></li>
+        <?php foreach ($_subcat->getChildrenCategories() as $_subsubcat):?>
+            <li><a href="<?php echo $_subsubcat->getUrl() ?>"><?php echo Mage::helper('catalog/output')->categoryAttribute($_subsubcat, $_subsubcat->getName(), 'name') ?></a></li>
+        <?php endforeach ?>
+    <?php endif; ?>
+<?php endforeach ?>
+</ul>
+
