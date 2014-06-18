@@ -1396,7 +1396,8 @@ img.twitter-sprite{background:url(../images/servu-misc-sprite-sheet-8-06-2013.pn
 .product-tabs li.active a { background-color:#fff; color:#000; }
 .product-tabs li.active a span{ border-bottom:4px double }
 .product-tabs li.active a:hover { background-color:#fff; font-weight:bold; color:#000; }
-.product-tabs-content {border:1px solid #acacac; border-top: 0; padding: 18px 11px;} 
+.product-tabs-content {border:1px solid #acacac; border-top: 0; padding: 18px 11px;display:none;}
+.product-tabs-content.active{display:block}
 
 #product_tabs_write_review_contents .data-table tbody th, #product_tabs_write_review_contents .data-table tbody td {border-bottom: 1px solid #ACACAC; padding-top: 6px; padding-bottom:6px;}
 #product_tabs_write_review_contents .data-table tbody .first th, #product_tabs_write_review_contents .data-table tbody .first td {border-top: 1px solid #ACACAC; }
