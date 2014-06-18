@@ -151,7 +151,7 @@
     
         $j('.rating-links a').click(function () {
             var selectedElement = $j(this).attr('href');
-
+            
             //tabContainers.hide().filter(selectedElement+'_contents').show();
             
             $j('ul.product-tabs li').removeClass('active');
@@ -160,8 +160,7 @@
             selectedElement = selectedElement.replace("#", "");
 
             window.location.hash = selectedElement;
-            
-            return false;
+            location.hash = '';
         });
     });
       //]]>
